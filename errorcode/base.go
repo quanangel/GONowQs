@@ -1,4 +1,4 @@
-package error
+package errorcode
 
 // GetMsg is get error message by int code
 func GetMsg(code int) string {
