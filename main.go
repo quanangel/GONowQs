@@ -1,5 +1,7 @@
 package main
 
+import "nowqs/frame/cli"
+
 func main() {
-	println("123123123")
+	cli.Run()
 }
