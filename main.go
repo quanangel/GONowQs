@@ -1,9 +1,7 @@
 package main
 
-import "nowqs/frame/utils"
+import "nowqs/frame/cli"
 
 func main() {
-	// cli.Run()
-
-	utils.Search(utils.UTypeFolder, "/home/", "tmp")
+	cli.Run()
 }

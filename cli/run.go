@@ -21,6 +21,8 @@ func Run() {
 		version()
 	case "help":
 		help()
+	case "file":
+		file()
 	default:
 		fmt.Printf("%s", descAll)
 	}
