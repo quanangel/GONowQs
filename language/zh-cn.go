@@ -14,4 +14,7 @@ var zhCn = map[string]string{
 	"token save error":    "TOKEN保存失败",
 	"file upload error":   "文件上传失败",
 	"database save error": "数据库保存失败",
+
+	// cmd
+	"lack search dir": "缺少搜索目录",
 }

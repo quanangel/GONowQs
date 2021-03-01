@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"io/fs"
 	"io/ioutil"
 	"os"
@@ -16,13 +15,22 @@ var searchChanRespond = make(chan string)
 
 var searchChanCount = 0
 
+// SearchResult is search file funciton result struct
+type SearchResult struct {
+	Data     map[int]string
+	Num      int
+	TakeTime time.Duration
+}
+
 // Search file
-func Search(searchType string, searchDir string, search string) {
+func Search(searchType string, searchDir string, search string) (resultData *SearchResult) {
 	startTime := time.Now()
 	go runSearch(searchType, searchDir, search, true)
 	waitWorker()
-	fmt.Println(searchList)
-	fmt.Println(time.Since(startTime))
+	resultData.Data = searchList
+	resultData.Num = len(resultData.Data)
+	resultData.TakeTime = time.Since(startTime)
+	return resultData
 }
 
 func waitWorker() {
