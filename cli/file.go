@@ -3,10 +3,8 @@ package cli
 import (
 	"flag"
 	"fmt"
-	"nowqs/frame/language"
 	"nowqs/frame/utils"
 	"os"
-	"strconv"
 )
 
 func file() {
@@ -27,21 +25,26 @@ func file() {
 
 func searchCliShort(flagSet *flag.FlagSet) {
 	fmt.Println(os.Args[3:])
-	searchType := flagSet.String("t", "folder", language.GetMsg("search type"))
-	dir := flagSet.String("d", "", language.GetMsg("search dir"))
-	name := flagSet.String("n", "", language.GetMsg("search name"))
-	flagSet.Parse(os.Args[3:])
-	if "" == *dir || !isExit(*dir) {
-		rootDir, _ := os.Getwd()
-		*dir = rootDir + "/"
+	searchType := utils.UTypeFolder
+	folder, _ := os.Getwd()
+	name := ""
+	for _, val := range os.Args[3:] {
+		// TODO: select
 	}
-	*name = "123"
-	fmt.Println(*searchType)
-	fmt.Println(*dir)
-	fmt.Println(*name)
-	result := utils.Search(*searchType, *dir, *name)
+	// searchType := flagSet.String("t", "folder", language.GetMsg("search type"))
+	// dir := flagSet.String("d", "", language.GetMsg("search dir"))
+	// name := flagSet.String("n", "", language.GetMsg("search name"))
+	// flagSet.Parse(os.Args[3:])
+	// if "" == *dir || !isExit(*dir) {
+	// 	rootDir, _ := os.Getwd()
+	// 	*dir = rootDir + "/"
+	// }
+	// fmt.Println(*searchType)
+	// fmt.Println(*dir)
+	// fmt.Println(*name)
+	// result := utils.Search(*searchType, *dir, *name)
 
-	fmt.Println(language.GetMsg("search count") + ": " + strconv.Itoa(result.Num))
-	fmt.Println(language.GetMsg("search take time") + ": " + strconv.Itoa(int(result.TakeTime)))
+	// fmt.Println(language.GetMsg("search count") + ": " + strconv.Itoa(result.Num))
+	// fmt.Println(language.GetMsg("search take time") + ": " + strconv.Itoa(int(result.TakeTime)))
 
 }
