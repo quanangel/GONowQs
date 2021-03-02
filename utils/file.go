@@ -24,6 +24,9 @@ type SearchResult struct {
 
 // Search file
 func Search(searchType string, searchDir string, search string) (resultData *SearchResult) {
+	if searchType != UTypeFile && UTypeFolder != searchType {
+		os.Exit(1)
+	}
 	startTime := time.Now()
 	go runSearch(searchType, searchDir, search, true)
 	waitWorker()

@@ -10,7 +10,7 @@ var descAll = []string{
 	"desc test",
 	"Usage:",
 	"	<run file name> <command> [arguments]",
-	"THe commoand are:",
+	"The commoand are:",
 	"	version		print the system version",
 	"	help		print the desc",
 	language.GetMsg("empty"),

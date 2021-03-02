@@ -6,15 +6,15 @@ import (
 	"os"
 )
 
+// init is initiation function
 func init() {
-	// flag.v
 	flag.Parse()
 }
 
 // Run is cli funciton
 func Run() {
 	if len(os.Args) == 1 {
-		os.Exit(1)
+		runExit(1)
 	}
 	switch os.Args[1] {
 	case "version":
@@ -26,4 +26,15 @@ func Run() {
 	default:
 		fmt.Printf("%s", descAll)
 	}
+}
+
+// runExit is exit function
+func runExit(code int) {
+	help()
+	os.Exit(1)
+}
+
+func isExit(path string) bool {
+	_, err := os.Stat(path)
+	return nil == err || os.IsExist(err)
 }

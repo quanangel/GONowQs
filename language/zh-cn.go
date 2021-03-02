@@ -16,5 +16,10 @@ var zhCn = map[string]string{
 	"database save error": "数据库保存失败",
 
 	// cmd
-	"lack search dir": "缺少搜索目录",
+	"lack search dir":  "缺少搜索目录",
+	"lack search name": "缺少搜索名称",
+	"search type":      "搜索类型",
+	"search dir":       "搜索目录",
+	"search name":      "搜索名称",
+	"search count":     "共搜索",
 }
