@@ -22,4 +22,5 @@ var zhCn = map[string]string{
 	"search dir":       "搜索目录",
 	"search name":      "搜索名称",
 	"search count":     "共搜索",
+	"search take time": "搜索耗时",
 }

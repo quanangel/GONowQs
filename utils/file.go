@@ -4,6 +4,7 @@ import (
 	"io/fs"
 	"io/ioutil"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -23,12 +24,9 @@ type SearchResult struct {
 }
 
 // Search file
-func Search(searchType string, searchDir string, search string) (resultData *SearchResult) {
-	if searchType != UTypeFile && UTypeFolder != searchType {
-		os.Exit(1)
-	}
+func Search(searchDir string, search string) (resultData SearchResult) {
 	startTime := time.Now()
-	go runSearch(searchType, searchDir, search, true)
+	go runSearch(searchDir, search, true)
 	waitWorker()
 	resultData.Data = searchList
 	resultData.Num = len(resultData.Data)
@@ -41,7 +39,7 @@ func waitWorker() {
 		select {
 		case searchArgs := <-searchChanRequest:
 			searchChanNum++
-			go runSearch(searchArgs["type"], searchArgs["dir"], searchArgs["search"], true)
+			go runSearch(searchArgs["dir"], searchArgs["search"], true)
 		case result := <-searchChanRespond:
 			searchChanCount++
 			if searchList == nil {
@@ -55,39 +53,31 @@ func waitWorker() {
 				return
 			}
 		}
-
 	}
 }
 
-func runSearch(searchType string, searchDir string, search string, master bool) {
+func runSearch(searchDir string, search string, master bool) {
 	files, errDir := ioutil.ReadDir(searchDir)
 	if errDir == nil {
-		switch searchType {
-		case UTypeFile:
-			// TODO: search file
-		case UTypeFolder:
-			checkFolder(files, searchDir, search, master)
-		}
+		checkFolder(files, searchDir, search, master)
 	}
-
 }
 
 func checkFolder(files []fs.FileInfo, searchDir string, search string, master bool) {
 	for _, file := range files {
+		if strings.Contains(file.Name(), search) {
+			searchChanRespond <- searchDir + file.Name()
+		}
 		if file.IsDir() {
-			if file.Name() == search {
-				searchChanRespond <- searchDir + file.Name()
-			}
 			newDir := searchDir + file.Name() + string(os.PathSeparator)
 			if searchChanNum < maxWorkerCount {
 				tmpMap := map[string]string{
-					"type":   UTypeFolder,
 					"dir":    newDir,
 					"search": search,
 				}
 				searchChanRequest <- tmpMap
 			} else {
-				runSearch(UTypeFolder, newDir, search, false)
+				runSearch(newDir, search, false)
 			}
 		}
 	}
