@@ -18,7 +18,7 @@ func file() {
 	case "-s":
 		searchCliShort(fileCli)
 	case "-search":
-		fmt.Println(2)
+		searchCliShort(fileCli)
 	default:
 		fmt.Printf("%s\r\n", "help")
 	}

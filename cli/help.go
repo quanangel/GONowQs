@@ -11,6 +11,7 @@ var descAll = []string{
 	"	<" + language.GetMsg("run file name") + "> <" + language.GetMsg("command") + "> [" + language.GetMsg("arguments") + "]",
 	language.GetMsg("the command list") + ":",
 	"	file		" + language.GetMsg("show about file"),
+	"	web		    " + language.GetMsg("run about web"),
 	"	version		" + language.GetMsg("show the system version"),
 	"	help		" + language.GetMsg("show the desc"),
 }

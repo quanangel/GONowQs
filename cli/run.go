@@ -23,6 +23,8 @@ func Run() {
 		help()
 	case "file":
 		file()
+	case "web":
+		web()
 	default:
 		fmt.Printf("%s", descAll)
 	}

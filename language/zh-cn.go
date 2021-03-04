@@ -25,6 +25,7 @@ var zhCn = map[string]string{
 	"show about file":         "文件相关的操作",
 	"show the system version": "显示系统版本",
 	"show the desc":           "显示描述",
+	"run about web":           "运行web相关服务",
 	"lack search dir":         "缺少搜索目录",
 	"lack search name":        "缺少搜索名称",
 	"search type":             "搜索类型",
