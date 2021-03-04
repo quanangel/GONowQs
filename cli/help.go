@@ -6,14 +6,13 @@ import (
 )
 
 var descAll = []string{
-	"this is NowQs cli system",
-	"desc test",
-	"Usage:",
-	"	<run file name> <command> [arguments]",
-	"The commoand are:",
-	"	version		print the system version",
-	"	help		print the desc",
-	language.GetMsg("empty"),
+	language.GetMsg("this is NowQs cli"),
+	language.GetMsg("usage") + ":",
+	"	<" + language.GetMsg("run file name") + "> <" + language.GetMsg("command") + "> [" + language.GetMsg("arguments") + "]",
+	language.GetMsg("the command list") + ":",
+	"	file		" + language.GetMsg("show about file"),
+	"	version		" + language.GetMsg("show the system version"),
+	"	help		" + language.GetMsg("show the desc"),
 }
 
 func help() {

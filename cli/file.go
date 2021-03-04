@@ -26,13 +26,15 @@ func file() {
 }
 
 func searchCliShort(flagSet *flag.FlagSet) {
-	fmt.Println(os.Args[3:])
 	dir := flagSet.String("d", "", language.GetMsg("search dir"))
 	name := flagSet.String("n", "", language.GetMsg("search name"))
 	flagSet.Parse(os.Args[3:])
-	fmt.Println(*dir)
 	fmt.Println(*name)
-	os.Exit(1)
+	if *name == "" {
+		fmt.Println(language.GetMsg("lack search name"))
+		os.Exit(1)
+	}
+
 	if "" == *dir || !isExit(*dir) {
 		rootDir, _ := os.Getwd()
 		*dir = rootDir + string(os.PathSeparator)
