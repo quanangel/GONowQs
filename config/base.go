@@ -132,9 +132,9 @@ func newConfigMsg() *Config {
 func whiteLog(err error) {
 	now := time.Now()
 	logDir := logPath + PathSeparator + now.Format("200601")
-	os.Mkdir(logDir, 0777)
+	os.Mkdir(logDir, 0666)
 	logFileName := logDir + PathSeparator + strconv.Itoa(now.Day()) + "_config.log"
-	logFile, _ := os.OpenFile(logFileName, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0777)
+	logFile, _ := os.OpenFile(logFileName, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	defer logFile.Close()
 	logger := log.New(logFile, "", log.LstdFlags|log.Lshortfile)
 
