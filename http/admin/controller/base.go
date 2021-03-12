@@ -29,6 +29,7 @@ func buildToken(userID int) string {
 	return base64Key
 }
 
+// analysisToken is analysis token function
 func analysisToken(token string) int64 {
 	tokenByte, err := base64.StdEncoding.DecodeString(token)
 	if err != nil {

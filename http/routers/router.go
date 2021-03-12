@@ -14,11 +14,7 @@ func NewRouter(r *gin.Engine) *gin.Engine {
 			"message": "pong",
 		})
 	})
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "ok",
-		})
-	})
+
 	r = admin.NewRouters(r)
 	return r
 }
