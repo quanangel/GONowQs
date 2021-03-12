@@ -35,7 +35,7 @@ func NewMember() Member {
 func (m *Member) Add(username string, nickname string, password string) int64 {
 	m.UserName = username
 	m.NickName = nickname
-	m.Password = m.sha512(password)
+	m.Password = m.Sha512(password)
 	m.RegisterTime = int(time.Now().Unix())
 	db := GetDb()
 	result := db.Create(m)
@@ -62,18 +62,6 @@ func (m *Member) GetList(search map[string]string, page int, limit int) (users *
 	return users
 }
 
-// Login is member login function
-func (m *Member) Login(username string, password string, lastIP string) *Member {
-	db := GetDb()
-	result := db.Where("user_name = ? AND password = ?", username, m.sha512(password)).First(m)
-	if result.RowsAffected == 0 {
-		return m
-	}
-	db.Model(m).Where("user_id = ?", m.UserID).Updates(map[string]interface{}{"last_ip": lastIP, "last_time": int(time.Now().Unix())})
-
-	return m
-}
-
 // GetByID is get member message by id
 func (m *Member) GetByID(userID int64) *Member {
 	db := GetDb()
@@ -81,8 +69,8 @@ func (m *Member) GetByID(userID int64) *Member {
 	return m
 }
 
-// sha512 is sha-512 encode
-func (m *Member) sha512(content string) string {
+// Sha512 is sha-512 encode
+func (m *Member) Sha512(content string) string {
 	newSha := sha512.New()
 	newSha.Write([]byte(content))
 	return hex.EncodeToString(newSha.Sum(nil))

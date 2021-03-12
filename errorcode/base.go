@@ -6,7 +6,18 @@ func GetMsg(code int) string {
 }
 
 var error = map[int]string{
+	// about base error
 	-1: "unexecuted",
 	0:  "success",
 	1:  "error",
+	2:  "not authorized",
+	3:  "lack token",
+	4:  "token create error",
+	5:  "token save error",
+
+	// about param error
+	10000: "param lack",
+
+	// about login error
+	20000: "user disabled",
 }

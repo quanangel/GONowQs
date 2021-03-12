@@ -5,7 +5,9 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"math/rand"
+	"net/http"
 	"nowqs/frame/language"
+	"reflect"
 	"strconv"
 	"strings"
 	"time"
@@ -44,4 +46,17 @@ func analysisToken(token string) int64 {
 		return 0
 	}
 	return userID
+}
+
+func jsonHandle(data map[string]interface{}) (int, map[string]interface{}) {
+	code := http.StatusOK
+	switch data["code"] {
+	case 0:
+		code = http.StatusOK
+	default:
+		code = http.StatusBadRequest
+	}
+	errorCode := reflect.ValueOf(data["code"]).Int()
+	data["msg"] = errorMsg(int(errorCode))
+	return code, data
 }
