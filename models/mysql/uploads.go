@@ -6,19 +6,19 @@ import "time"
 type Uploads struct {
 	// id
 	ID int64 `gorm:"column:id;type:bigint(20);primaryKey;autoIncrement"`
-	// 文件名
+	// file name
 	FileName string `gorm:"column:file_name;type:varchar(255);not null"`
-	// 文件類型
+	// file type
 	FileType string `gorm:"column:file_type;type:varchar(20);not null"`
-	// 文件地址
+	// file address
 	FileAdd string `gorm:"column:file_add;type:text;not null"`
-	// 文件标识MD5
+	// file md5
 	FileMd5 string `gorm:"column:file_md5;type:varchar(100);index;not null"`
-	// 上传文件的用户ID
+	// upload user id
 	UploadUserID int64 `gorm:"column:upload_user_id:bigint(20);index;default:0"`
-	// 文件状态：0已删除、1正常、2仅上传用户查看
+	// file status: 0delete、1normal、2show for upload user
 	Status int8 `gorm:"column:status:tinyint(1);default:1"`
-	// 添加时间
+	// add time
 	AddTime int `gorm:"column:add_time;type:int(10);not null"`
 }
 

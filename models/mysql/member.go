@@ -8,21 +8,21 @@ import (
 
 // Member is member table struct
 type Member struct {
-	// 用户ID
+	// user id
 	UserID int64 `gorm:"column:user_id;type:bigint(20);primaryKey;autoIncrement"`
-	// 用户名
+	// user name
 	UserName string `gorm:"column:user_name;type:varchar(50);index;not null"`
-	// 用户昵称
+	// nick name
 	NickName string `gorm:"column:nick_name;type:varchar(50);not null"`
-	// 密码
+	// password
 	Password string `gorm:"column:password:type:varchar(1024);not null"`
-	// 状态:1正常、2禁用
+	// status: 1normal、2disable
 	Status int8 `gorm:"column:status;type:tinyint(1);default:1"`
-	// 最后登录IP
+	// last login ip
 	LastIP string `gorm:"column:last_ip;type:varchar(20);null"`
-	// 最后登录时间
+	// last login time
 	LastTime int `gorm:"column:last_time;type:int(10);null"`
-	// 注册时间
+	// register time
 	RegisterTime int `gorm:"column:register_time;type:int(10);not null"`
 }
 
