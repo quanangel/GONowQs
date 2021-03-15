@@ -8,6 +8,8 @@ type Uploads struct {
 	ID int64 `gorm:"column:id;type:bigint(20);primaryKey;autoIncrement"`
 	// 文件名
 	FileName string `gorm:"column:file_name;type:varchar(255);not null"`
+	// 文件類型
+	FileType string `gorm:"column:file_type;type:varchar(20);"`
 	// 文件地址
 	FileAdd string `gorm:"column:file_add;type:text;not null"`
 	// 文件标识MD5
@@ -26,8 +28,9 @@ func NewImages() Uploads {
 }
 
 // Add is add action function
-func (m *Uploads) Add(fileName string, fileAdd string, fileMd5 string, uploadUserID int64, status int8) int64 {
+func (m *Uploads) Add(fileName string, fileType string, fileAdd string, fileMd5 string, uploadUserID int64, status int8) int64 {
 	m.FileName = fileName
+	m.FileType = fileType
 	m.FileAdd = fileAdd
 	m.FileMd5 = fileMd5
 	m.UploadUserID = uploadUserID
