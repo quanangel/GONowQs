@@ -20,4 +20,7 @@ var error = map[int]string{
 
 	// about login error
 	20000: "user disabled",
+
+	// about redis error
+	30000: "redis error",
 }
