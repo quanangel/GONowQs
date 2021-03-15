@@ -30,6 +30,13 @@ func (m *MemberToken) Add(userID int64, token string) bool {
 	return false
 }
 
+// GetTokenByID is get token by userID function
+func (m *MemberToken) GetTokenByID(userID int64) string {
+	db := GetDb()
+	db.Where("user_id=?", userID).First(m)
+	return m.Token
+}
+
 // Del is del token function
 func (m *MemberToken) Del(userID int64, token string) bool {
 	db := GetDb()
