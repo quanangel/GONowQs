@@ -6,7 +6,7 @@
 ## Swagger 
 ``` shell
 # github.com/swaggo/swag
-# swag init -g v1/routers/router.go
+# swag init -g http/admin/controller/base.go
 swag init
 ```
 
