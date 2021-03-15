@@ -9,7 +9,7 @@ type Uploads struct {
 	// 文件名
 	FileName string `gorm:"column:file_name;type:varchar(255);not null"`
 	// 文件類型
-	FileType string `gorm:"column:file_type;type:varchar(20);"`
+	FileType string `gorm:"column:file_type;type:varchar(20);not null"`
 	// 文件地址
 	FileAdd string `gorm:"column:file_add;type:text;not null"`
 	// 文件标识MD5
