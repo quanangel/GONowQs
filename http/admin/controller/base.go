@@ -4,14 +4,26 @@ import (
 	"crypto/md5"
 	"encoding/base64"
 	"encoding/hex"
+	"errors"
 	"math/rand"
 	"net/http"
+	"nowqs/frame/config"
+	"nowqs/frame/http/admin/models"
 	"nowqs/frame/language"
+	redis "nowqs/frame/models/redis"
 	"reflect"
 	"strconv"
 	"strings"
 	"time"
 )
+
+// @title NowQS Farme Admin Api
+// @version 0.0.1
+// @description This is Api Document
+// @contact.name Qs
+// @contact.email quanangel@outlook.com
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
 // errorMsg is get error message by error code
 func errorMsg(code int) string {
@@ -19,14 +31,14 @@ func errorMsg(code int) string {
 }
 
 // buildToken is build token string
-func buildToken(userID int) string {
+func buildToken(userID int64) string {
 	key := strconv.FormatInt(time.Now().Unix(), 10)
 	rand.Seed(time.Now().UnixNano())
 	key += strconv.Itoa(rand.Intn(10000))
 	md5Key := md5.New()
 	md5Key.Write([]byte(key))
 	md5String := hex.EncodeToString(md5Key.Sum(nil))
-	base64Key := base64.StdEncoding.EncodeToString([]byte(md5String + "_" + strconv.Itoa(userID)))
+	base64Key := base64.StdEncoding.EncodeToString([]byte(md5String + "_" + strconv.FormatInt(userID, 10)))
 
 	return base64Key
 }
@@ -36,6 +48,7 @@ func analysisToken(token string) int64 {
 	tokenByte, err := base64.StdEncoding.DecodeString(token)
 	if err != nil {
 		return 0
+
 	}
 	tokenArray := strings.Split(string(tokenByte), "_")
 	if len(tokenArray) != 2 {
@@ -48,6 +61,50 @@ func analysisToken(token string) int64 {
 	return userID
 }
 
+// userAuth is user authenticity function
+func userAuth(token string) int64 {
+	userID := analysisToken(token)
+	if 0 == userID {
+		return 0
+	}
+	serverToken := tokenGet(userID)
+
+	if serverToken != token {
+		return 0
+	}
+
+	return userID
+}
+
+// tokenSave is save token function
+func tokenSave(userID int64, token string) error {
+	var err error = nil
+	if false == config.AppConfig.Redis.Status {
+		modelMemberToken := models.NewMemberToken()
+		result := modelMemberToken.Add(userID, token)
+		if false == result {
+			err = errors.New(errorMsg(5))
+		}
+	} else {
+		err = redis.SetLoginToken(userID, token)
+	}
+
+	return err
+}
+
+// tokenGet is get token by function
+func tokenGet(userID int64) string {
+	var token string = ""
+	if false == config.AppConfig.Redis.Status {
+		modelMemberToken := models.NewMemberToken()
+		token = modelMemberToken.GetTokenByID(userID)
+	} else {
+		token = redis.GetLoginToken(userID)
+	}
+	return token
+}
+
+// jsonHandle is handle returnData message
 func jsonHandle(data map[string]interface{}) (int, map[string]interface{}) {
 	code := http.StatusOK
 	switch data["code"] {
