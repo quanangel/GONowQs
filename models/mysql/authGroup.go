@@ -1,6 +1,6 @@
 package mysql
 
-// AuthGroup is
+// AuthGroup is auth_group table
 type AuthGroup struct {
 	// id
 	ID int `gorm:"column:id;type:int(10);primaryKey;autoIncrement"`
