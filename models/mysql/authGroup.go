@@ -1,5 +1,7 @@
 package mysql
 
+import "gorm.io/gorm"
+
 // AuthGroup is auth_group table
 type AuthGroup struct {
 	// id
@@ -21,4 +23,57 @@ func NewAuthGroup() AuthGroup {
 	return AuthGroup{}
 }
 
-// TODO: NOT FINISHS
+// Add is add the new group function
+func (m *AuthGroup) Add(name string, status int8, rules string) int {
+	m.Name = name
+	m.Status = status
+	m.Rules = rules
+	db := GetDb()
+	result := db.Create(m)
+	if result.RowsAffected > 0 {
+		return m.ID
+	}
+	return 0
+}
+
+// Edit is edit the group message function
+func (m *AuthGroup) Edit(search map[string]interface{}, data map[string]interface{}) int64 {
+	db := GetDb()
+	result := db.Where(search).Updates(data)
+	if result.RowsAffected > 0 {
+		return result.RowsAffected
+	}
+	return 0
+}
+
+// Del is batch delete auth group and group access message function
+func (m *AuthGroup) Del(search map[string]interface{}) bool {
+	db := GetDb()
+	resultErr := db.Transaction(func(tx *gorm.DB) error {
+		authGroupList := make(map[int]AuthGroup)
+		err := tx.Where(search).Find(authGroupList).Error
+		if err != nil {
+			return err
+		}
+
+		err = tx.Where(search).Delete(authGroupList).Error
+		if err != nil {
+			return err
+		}
+
+		authGroupId := make(map[int]int)
+		for key, value := range authGroupList {
+			authGroupId[key] = value.ID
+		}
+
+		err = tx.Where("group_id IN ?", authGroupId).Delete(AuthGroupAccess{}).Error
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if resultErr != nil {
+		return false
+	}
+	return true
+}
