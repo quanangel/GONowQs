@@ -1,6 +1,10 @@
 package mysql
 
-import "gorm.io/gorm"
+import (
+	"strings"
+
+	"gorm.io/gorm"
+)
 
 // AuthGroup is auth_group table
 type AuthGroup struct {
@@ -75,5 +79,40 @@ func (m *AuthGroup) Del(search map[string]interface{}) bool {
 	if resultErr != nil {
 		return false
 	}
+	return true
+}
+
+// CheckUser is check the user it's have permission
+func (m *AuthGroup) CheckUser(userID int64, rule string) bool {
+	db := GetDb()
+	accessKV := make(map[int]AuthGroupAccess)
+	err := db.Where("user_id = ?", userID).Find(accessKV).Error
+	if nil != err {
+		return false
+	}
+
+	groupIdMap := make(map[int]int)
+	for key, value := range accessKV {
+		groupIdMap[key] = value.GroupID
+	}
+
+	groupKV := make(map[int]AuthGroup)
+	err = db.Where("id IN ?", groupIdMap).Find(groupKV).Error
+
+	ruleIdMap := make(map[string]string)
+	for _, value := range groupKV {
+		if len(value.Rules) > 0 {
+			tmp := strings.Split(value.Rules, ",")
+			for _, v := range tmp {
+				ruleIdMap[v] = v
+			}
+		}
+	}
+
+	err = db.Where("id IN ? AND name = ? AND status = 1", ruleIdMap, rule).First(m).Error
+	if nil != err {
+		return false
+	}
+
 	return true
 }
