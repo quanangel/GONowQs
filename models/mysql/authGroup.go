@@ -82,7 +82,7 @@ func (m *AuthGroup) Del(search map[string]interface{}) bool {
 	return true
 }
 
-// CheckUser is check the user it's have permission
+// CheckUser is check the user is it have permission
 func (m *AuthGroup) CheckUser(userID int64, rule string) bool {
 	db := GetDb()
 
@@ -97,7 +97,7 @@ func (m *AuthGroup) CheckUser(userID int64, rule string) bool {
 }
 
 // GetRules is get rules map
-func (m *AuthGroup) GetRules(userID int64) (rules map[string]string) {
+func (m *AuthGroup) GetRules(userID int64) (rules map[int]string) {
 	db := GetDb()
 	accessKV := make(map[int]AuthGroupAccess)
 	err := db.Where("user_id = ?", userID).Find(accessKV).Error
@@ -116,8 +116,8 @@ func (m *AuthGroup) GetRules(userID int64) (rules map[string]string) {
 	for _, value := range groupKV {
 		if len(value.Rules) > 0 {
 			tmp := strings.Split(value.Rules, ",")
-			for _, v := range tmp {
-				rules[v] = v
+			for k, v := range tmp {
+				rules[k] = v
 			}
 		}
 	}

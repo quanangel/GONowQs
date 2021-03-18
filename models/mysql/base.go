@@ -26,6 +26,7 @@ var (
 
 func init() {
 	prefix = config.AppConfig.Db.Prefix
+
 }
 
 // InitDb is initialization DB example function
@@ -48,6 +49,10 @@ func InitDb() {
 		checkError(err, true)
 		sqlDb.SetMaxIdleConns(config.AppConfig.Db.SetMaxIdleConns)
 		sqlDb.SetMaxOpenConns(config.AppConfig.Db.SetMaxOpenConns)
+
+		db := GetDb()
+		db.AutoMigrate(MemberToken{})
+
 	} else {
 		logWrite("db status is close")
 	}

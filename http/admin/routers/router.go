@@ -1,6 +1,7 @@
 package routers
 
 import (
+	adminController "nowqs/frame/http/admin/controller"
 	adminMiddleware "nowqs/frame/http/admin/middleware"
 	"nowqs/frame/http/middleware"
 
@@ -16,5 +17,15 @@ func NewRouters(r *gin.Engine) *gin.Engine {
 			"message": "ok",
 		})
 	})
+
+	login := adminController.NewLogin()
+
+	admin := r.Group("/admin")
+	{
+		admin.GET("/login/index", login.Get)
+		admin.PUT("/login/index", login.Put)
+
+	}
+
 	return r
 }

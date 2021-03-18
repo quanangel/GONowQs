@@ -9,10 +9,13 @@ import (
 func GetMsg(text string) string {
 	switch config.AppConfig.Language {
 	case "zh-cn":
-		return zhCn[text]
+		if zhCn[text] == "" {
+			break
+		}
+		text = zhCn[text]
 	default:
-		return text
 	}
+	return text
 }
 
 // GetErrorMsg is get error message by code

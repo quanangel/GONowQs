@@ -39,12 +39,12 @@ type loginValidate struct {
 func (a *Login) Put(c *gin.Context) {
 	returnData := gin.H{
 		"code": -1,
-		"msg":  errorMsg(-1),
 	}
 
 	var validate loginValidate
 	if err := c.Bind(&validate); err != nil {
 		returnData["code"] = 10000
+		returnData["msg"] = err.Error()
 		c.JSON(jsonHandle(returnData))
 		return
 	}
@@ -63,6 +63,7 @@ func (a *Login) Put(c *gin.Context) {
 	err := tokenSave(userInfo.UserID, userToken)
 	if nil != err {
 		returnData["code"] = 30000
+		returnData["msg"] = err.Error()
 		c.JSON(jsonHandle(returnData))
 		return
 	}
@@ -82,9 +83,10 @@ func (a *Login) Put(c *gin.Context) {
 // @Failure 400 {string} json "{"code": 1, "msg": "error"}"
 // @Router /admin/login/index [get]
 func (a *Login) Get(c *gin.Context) {
+	checkRuleByUser(c)
+
 	returnData := gin.H{
 		"code": -1,
-		"msg":  errorMsg(-1),
 	}
 	authToken := c.GetHeader("Auth-Token")
 	if "" == authToken {

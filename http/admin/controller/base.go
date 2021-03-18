@@ -8,13 +8,15 @@ import (
 	"math/rand"
 	"net/http"
 	"nowqs/frame/config"
-	"nowqs/frame/http/admin/models"
+	models "nowqs/frame/http/admin/models"
 	"nowqs/frame/language"
 	redis "nowqs/frame/models/redis"
 	"reflect"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 // @title NowQS Farme Admin Api
@@ -79,10 +81,10 @@ func userAuth(token string) int64 {
 // tokenSave is save token function
 func tokenSave(userID int64, token string) error {
 	var err error = nil
-	if false == config.AppConfig.Redis.Status {
+	if !config.AppConfig.Redis.Status {
 		modelMemberToken := models.NewMemberToken()
 		result := modelMemberToken.Add(userID, token)
-		if false == result {
+		if !result {
 			err = errors.New(errorMsg(5))
 		}
 	} else {
@@ -113,7 +115,24 @@ func jsonHandle(data map[string]interface{}) (int, map[string]interface{}) {
 	default:
 		code = http.StatusBadRequest
 	}
-	errorCode := reflect.ValueOf(data["code"]).Int()
-	data["msg"] = errorMsg(int(errorCode))
+	if "" == data["msg"] || nil == data["msg"] {
+		errorCode := reflect.ValueOf(data["code"]).Int()
+		data["msg"] = errorMsg(int(errorCode))
+	}
 	return code, data
+}
+
+// checkRuleByUser is chekc user is it hava permission
+func checkRuleByUser(c *gin.Context) bool {
+
+	userID := userAuth(c.GetHeader("Auth-Token"))
+	if 0 == userID {
+		return false
+	}
+
+	urlPathRune := []rune(c.Request.URL.Path)
+	urlPath := string(urlPathRune[1:])
+	auth := models.NewAuth()
+
+	return auth.CheckUser(userID, urlPath)
 }
