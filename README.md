@@ -6,7 +6,10 @@
 ## Swagger 
 ``` shell
 # github.com/swaggo/swag
-# swag init -g http/admin/controller/base.go
+
+# admin api document
+# swag init -g http/admin/controller/base.go -o ./http/admin/swagger
+
 swag init
 ```
 
