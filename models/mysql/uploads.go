@@ -5,21 +5,21 @@ import "time"
 // Uploads is uploads table struct
 type Uploads struct {
 	// id
-	ID int64 `gorm:"column:id;type:bigint(20);primaryKey;autoIncrement"`
+	ID int64 `gorm:"column:id;type:bigint(20);primaryKey;autoIncrement;comment:id"`
 	// file name
-	FileName string `gorm:"column:file_name;type:varchar(255);not null"`
+	FileName string `gorm:"column:file_name;type:varchar(255);not null;comment:file name"`
 	// file type
-	FileType string `gorm:"column:file_type;type:varchar(20);not null"`
+	FileType string `gorm:"column:file_type;type:varchar(20);not null;comment:file type"`
 	// file address
-	FileAdd string `gorm:"column:file_add;type:text;not null"`
+	FileAdd string `gorm:"column:file_add;type:text;not null;comment:file address"`
 	// file md5
-	FileMd5 string `gorm:"column:file_md5;type:varchar(100);index;not null"`
+	FileMd5 string `gorm:"column:file_md5;type:varchar(100);index;not null;comment:file md5"`
 	// upload user id
-	UploadUserID int64 `gorm:"column:upload_user_id:bigint(20);index;default:0"`
+	UploadUserID int64 `gorm:"column:upload_user_id:bigint(20);index;default:0;comment:upload user id"`
 	// file status: 0delete、1normal、2show for upload user
-	Status int8 `gorm:"column:status:tinyint(1);default:1"`
+	Status int8 `gorm:"column:status:tinyint(1);default:1;comment:file status:0delete、1normal、2only show for upload user"`
 	// add time
-	AddTime int `gorm:"column:add_time;type:int(10);not null"`
+	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
 }
 
 // NewImages is return Images struct

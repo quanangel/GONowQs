@@ -5,11 +5,11 @@ import "time"
 // MemberToken is member_token table struct
 type MemberToken struct {
 	// user id
-	UserID int64 `gorm:"column:user_id;type:bigint(20);index;not null"`
+	UserID int64 `gorm:"column:user_id;type:bigint(20);index;not null;comment:user id"`
 	// token
-	Token string `gorm:"column:token;type:varchar(100);index;not null"`
+	Token string `gorm:"column:token;type:varchar(100);index;not null;comment:token"`
 	// add time
-	AddTime int `gorm:"column:add_time;type:int(10);not null"`
+	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
 }
 
 // NewMemberToken is return MemberToken struct

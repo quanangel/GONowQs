@@ -9,21 +9,21 @@ import (
 // Member is member table struct
 type Member struct {
 	// user id
-	UserID int64 `gorm:"column:user_id;type:bigint(20);primaryKey;autoIncrement"`
+	UserID int64 `gorm:"column:user_id;type:bigint(20);primaryKey;autoIncrement;comment:user id"`
 	// user name
-	UserName string `gorm:"column:user_name;type:varchar(50);index;not null"`
+	UserName string `gorm:"column:user_name;type:varchar(50);index;not null;comment:user name"`
 	// nick name
-	NickName string `gorm:"column:nick_name;type:varchar(50);not null"`
+	NickName string `gorm:"column:nick_name;type:varchar(50);not null;comment:nick name"`
 	// password
-	Password string `gorm:"column:password:type:varchar(1024);not null"`
+	Password string `gorm:"column:password:type:varchar(1024);not null;comment:password"`
 	// status: 1normal、2disable
-	Status int8 `gorm:"column:status;type:tinyint(1);default:1"`
+	Status int8 `gorm:"column:status;type:tinyint(1);default:1;comment:status:1normal、2disable"`
 	// last login ip
-	LastIP string `gorm:"column:last_ip;type:varchar(20);null"`
+	LastIP string `gorm:"column:last_ip;type:varchar(20);null;comment:last login ip"`
 	// last login time
-	LastTime int `gorm:"column:last_time;type:int(10);null"`
+	LastTime int `gorm:"column:last_time;type:int(10);null;comment:last login time"`
 	// register time
-	RegisterTime int `gorm:"column:register_time;type:int(10);not null"`
+	RegisterTime int `gorm:"column:register_time;type:int(10);not null;comment:register time"`
 }
 
 // NewMember is return Member struct

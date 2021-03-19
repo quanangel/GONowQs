@@ -4,19 +4,19 @@ import "time"
 
 type AuthRule struct {
 	// id
-	ID int `gorm:"column:id;type:int(10);primaryKey;autoIncrement"`
+	ID int `gorm:"column:id;type:int(10);primaryKey;autoIncrement;comment:id"`
 	// Pid
-	PID int `gorm:"column:pid;type:int(10);index;default:0"`
+	PID int `gorm:"column:pid;type:int(10);index;default:0;comment:up one level id"`
 	// name
-	Name string `gorm:"column:name;type:varchar(20);not null"`
+	Name string `gorm:"column:name;type:varchar(20);not null;comment:name"`
 	// url
-	Url string `gorm:"column:url;type:varchar(200);"`
+	Url string `gorm:"column:url;type:varchar(200);comment:url"`
 	// Condition
-	Condition string `gorm:"column:condition;type:varchar(100)"`
+	Condition string `gorm:"column:condition;type:varchar(100);comment:condition"`
 	// status: 1normal、2disable
-	Status int8 `gorm:"column:status;type:tinyint(1);default:1"`
+	Status int8 `gorm:"column:status;type:tinyint(1);default:1;status:1normal、2disable"`
 	// add time
-	AddTime int `gorm:"column:add_time;type:int(10);not null"`
+	AddTime int `gorm:"column:add_time;type:int(10);not null;add time"`
 }
 
 // NewAuthRule is return AuthRule struct function

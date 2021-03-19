@@ -10,17 +10,17 @@ import (
 // AuthGroup is auth_group table
 type AuthGroup struct {
 	// id
-	ID int `gorm:"column:id;type:int(10);primaryKey;autoIncrement"`
+	ID int `gorm:"column:id;type:int(10);primaryKey;autoIncrement;comment:id"`
 	// name
-	Name string `gorm:"column:name;type:varchar(20);not null"`
+	Name string `gorm:"column:name;type:varchar(20);not null;comment:name"`
 	// status: 1normal、2disable
-	Status int8 `gorm:"column:status;type:tinyint(1);default:1"`
+	Status int8 `gorm:"column:status;type:tinyint(1);default:1;comment:status:1normal、2disable"`
 	// rule string
-	Rules string `gorm:"column:rules;type:text;"`
+	Rules string `gorm:"column:rules;type:text;comment:rule list"`
 	// add time
-	AddTime int `gorm:"column:add_time;type:int(10);not null"`
+	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
 	// update time
-	UpdateTime int `gorm:"column:update_time;type:int(10);not null"`
+	UpdateTime int `gorm:"column:update_time;type:int(10);not null;comment:update time"`
 }
 
 // NewAuthGroup is return AuthGroup struct function
