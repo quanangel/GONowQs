@@ -134,5 +134,7 @@ func checkRuleByUser(c *gin.Context) bool {
 	urlPath := string(urlPathRune[1:])
 	auth := models.NewAuth()
 
-	return auth.CheckUser(userID, urlPath)
+	condition := c.Request.Method
+
+	return auth.CheckUser(userID, urlPath, condition)
 }
