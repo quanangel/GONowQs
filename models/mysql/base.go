@@ -32,7 +32,19 @@ func init() {
 // InitDb is initialization DB example function
 func InitDb() {
 	if config.AppConfig.Db.Status {
-		var err error
+		logFile, err := os.OpenFile(getLogFileName(), os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		if err != nil {
+			fmt.Fprintln(logFile, err)
+		}
+		mysqlLogger := gormLogger.New(
+			log.New(logFile, "\r\n", log.LstdFlags|log.Lshortfile),
+			gormLogger.Config{
+				SlowThreshold: 200 * time.Millisecond,
+				LogLevel:      gormLogger.Info,
+				Colorful:      false,
+			},
+		)
+
 		pool, err = gorm.Open(mysql.New(mysql.Config{
 			DSN: config.AppConfig.Db.DSN,
 		}), &gorm.Config{
@@ -42,7 +54,8 @@ func InitDb() {
 				// 使用单数表名，启用该选项，此时，`User` 的表名应该是 `t_user`
 				SingularTable: true,
 			},
-			Logger: gormLogger.Default.LogMode(gormLogger.Info),
+			// Logger: gormLogger.Default.LogMode(gormLogger.Info),
+			Logger: mysqlLogger,
 		})
 		checkError(err, true)
 		sqlDb, err := pool.DB()
@@ -58,13 +71,23 @@ func InitDb() {
 	}
 }
 
+// getLogPath is get mysql path name
+func getLogPath() string {
+	now := time.Now()
+	logDir := config.GetLogPath() + config.PathSeparator + now.Format("200601") + config.PathSeparator + "mysql"
+	os.Mkdir(logDir, 0666)
+	return logDir
+}
+
+// getLogFileName is get log file name have path
+func getLogFileName() string {
+	now := time.Now()
+	return getLogPath() + config.PathSeparator + strconv.Itoa(now.Day()) + ".log"
+}
+
 // logWrite is make log
 func logWrite(content string) {
-	now := time.Now()
-	dirName := config.GetLogPath() + config.PathSeparator + now.Format("200601")
-	os.MkdirAll(dirName, 0777)
-	fileName := dirName + config.PathSeparator + strconv.Itoa(now.Day()) + "_db.log"
-	logfile, _ := os.OpenFile(fileName, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0777)
+	logfile, _ := os.OpenFile(getLogFileName(), os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	defer logfile.Close()
 	logger = log.New(logfile, "", log.LstdFlags|log.Lshortfile)
 	logger.Println(content)

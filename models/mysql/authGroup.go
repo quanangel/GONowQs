@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"strconv"
 	"strings"
 
 	"gorm.io/gorm"
@@ -83,12 +84,12 @@ func (m *AuthGroup) Del(search map[string]interface{}) bool {
 }
 
 // CheckUser is check the user is it have permission
-func (m *AuthGroup) CheckUser(userID int64, rule string) bool {
+func (m *AuthGroup) CheckUser(userID int64, url string, condition string) bool {
 	db := GetDb()
 
 	ruleIdMap := m.GetRules(userID)
 
-	err := db.Where("id IN ? AND name = ? AND status = 1", ruleIdMap, rule).First(m).Error
+	err := db.Where("id IN ? AND url = ? AND condition=? AND status = 1", ruleIdMap, url, condition).First(m).Error
 	if nil != err {
 		return false
 	}
@@ -97,7 +98,7 @@ func (m *AuthGroup) CheckUser(userID int64, rule string) bool {
 }
 
 // GetRules is get rules map
-func (m *AuthGroup) GetRules(userID int64) (rules map[int]string) {
+func (m *AuthGroup) GetRules(userID int64) (rules map[int]int) {
 	db := GetDb()
 	accessKV := make(map[int]AuthGroupAccess)
 	err := db.Where("user_id = ?", userID).Find(accessKV).Error
@@ -116,8 +117,9 @@ func (m *AuthGroup) GetRules(userID int64) (rules map[int]string) {
 	for _, value := range groupKV {
 		if len(value.Rules) > 0 {
 			tmp := strings.Split(value.Rules, ",")
-			for k, v := range tmp {
-				rules[k] = v
+			for _, v := range tmp {
+				vInt, _ := strconv.Atoi(v)
+				rules[vInt] = vInt
 			}
 		}
 	}
