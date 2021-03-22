@@ -46,14 +46,14 @@ func (m *Member) Add(username string, nickname string, password string) int64 {
 }
 
 // GetAll is get all membmer message
-func (m *Member) GetAll() (users []Member) {
+func (m *Member) GetAll() (users *[]Member) {
 	db := GetDb()
-	db.Find(&users)
+	db.Find(users)
 	return users
 }
 
 // GetList is get all membmer message
-func (m *Member) GetList(search map[string]string, page int, limit int) (users *Member) {
+func (m *Member) GetList(search map[string]string, page int, limit int) (users *[]Member) {
 	db := GetDb()
 	for key := range search {
 		db.Or(key+" LIKE ?", "%"+search[key]+"%")

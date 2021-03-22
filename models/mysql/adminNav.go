@@ -57,3 +57,18 @@ func (m *AdminNav) Del(search map[string]interface{}) bool {
 	}
 	return false
 }
+
+// GetOne is get one single message by search
+func (m *AdminNav) GetOne(search map[string]interface{}) *AdminNav {
+	db := GetDb()
+	db.Where(search).First(m)
+	return m
+}
+
+// GetList is get list by search
+func (m *AdminNav) GetList(search map[string]interface{}, page int, limit int) (list *[]AdminNav) {
+	db := GetDb()
+	db.Where(search)
+	db.Offset((page - 1) * limit).Limit(page * limit).Find(list)
+	return list
+}

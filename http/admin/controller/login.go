@@ -31,6 +31,7 @@ type loginValidate struct {
 // @Success 200 {string} json "{"code": 0,"msg": "success","data": ""}"
 // @Failure 400 {string} json "{"code": 1, "msg": "error"}"
 // @Router /admin/login/index [get]
+// Get is get user message
 func (a *Login) Get(c *gin.Context) {
 	checkRuleByUser(c)
 

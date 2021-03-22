@@ -61,7 +61,7 @@ func (m *AuthRule) Del(search map[string]interface{}) bool {
 }
 
 // GetList is authRuel message by list
-func (m *AuthRule) GetList(search map[string]string, page int, limit int) (lists *AuthRule) {
+func (m *AuthRule) GetList(search map[string]string, page int, limit int) (lists *[]AuthRule) {
 	db := GetDb()
 	for key := range search {
 		db.Or(key+" LIKE ?", "%"+search[key]+"%")
