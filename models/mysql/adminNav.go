@@ -1,5 +1,7 @@
 package mysql
 
+import "time"
+
 // AdminNav is table admin_nav table
 type AdminNav struct {
 	// id
@@ -21,4 +23,37 @@ func NewAdminNav() AdminNav {
 	return AdminNav{}
 }
 
-// TODO:not finish
+// Add is add nav message
+func (m *AdminNav) Add(name string, url string, status int8) int {
+	m.Name = name
+	m.Url = url
+	m.Status = status
+	m.AddTime = int(time.Now().Unix())
+	m.UpdateTime = int(time.Now().Unix())
+	db := GetDb()
+	result := db.Create(m)
+	if result.RowsAffected > 0 {
+		return m.ID
+	}
+	return 0
+}
+
+// Edit is edit message by search
+func (m *AdminNav) Edit(search map[string]interface{}, data map[string]interface{}) bool {
+	db := GetDb()
+	result := db.Where(search).Updates(data)
+	if result.RowsAffected > 0 {
+		return true
+	}
+	return false
+}
+
+// Del is delete message by search
+func (m *AdminNav) Del(search map[string]interface{}) bool {
+	db := GetDb()
+	result := db.Where(search).Delete(m)
+	if result.RowsAffected > 0 {
+		return true
+	}
+	return false
+}
