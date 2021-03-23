@@ -19,12 +19,17 @@ func NewRouters(r *gin.Engine) *gin.Engine {
 	})
 
 	login := adminController.NewLogin()
+	nav := adminController.NewNav()
 
 	admin := r.Group("/admin")
 	{
+		admin.StaticFile("/swagger", "./http/admin/swagger/swagger.json")
 		admin.GET("/login/index", login.Get)
 		admin.PUT("/login/index", login.Put)
 
+		admin.GET("/nav/index", nav.Get)
+		admin.POST("/nav/index", nav.Post)
+		admin.PUT("/nav/index", nav.Put)
 	}
 
 	return r

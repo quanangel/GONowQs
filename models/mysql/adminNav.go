@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"fmt"
+	"reflect"
 	"time"
 )
 
@@ -47,7 +48,20 @@ func (m *AdminNav) Add(name string, pid int, url string, status int8) int {
 // Edit is edit message by search
 func (m *AdminNav) Edit(search map[string]interface{}, data map[string]interface{}) bool {
 	db := GetDb()
-	result := db.Where(search).Updates(data)
+	for k, v := range data {
+		switch k {
+		case "pid":
+			m.PID = int(reflect.ValueOf(v).Int())
+		case "name":
+			m.Name = fmt.Sprintf("%v", v)
+		case "url":
+			m.Url = fmt.Sprintf("%v", v)
+		case "status":
+			m.Status = int8(reflect.ValueOf(v).Int())
+		}
+	}
+	m.UpdateTime = int(time.Now().Unix())
+	result := db.Where(search).Updates(m)
 	if result.RowsAffected > 0 {
 		return true
 	}

@@ -28,12 +28,11 @@ type loginValidate struct {
 // @Description Login
 // @Produce json
 // @Param Auth-Token header string true "Auth-Token"
-// @Success 200 {string} json "{"code": 0,"msg": "success","data": ""}"
-// @Failure 400 {string} json "{"code": 1, "msg": "error"}"
+// @Success 200 {object} _returnLoginGet
+// @Failure 400 {object} _returnError
 // @Router /admin/login/index [get]
 // Get is get user message
 func (a *Login) Get(c *gin.Context) {
-	checkRuleByUser(c)
 
 	returnData := gin.H{
 		"code": -1,
@@ -77,13 +76,9 @@ func (a *Login) Get(c *gin.Context) {
 // @Tags Login
 // @Description Login
 // @Produce json
-// @Param username query string true "username"
-// @Param password query string true "password"
-// @Param last_ip query string false "last_ip"
-// @Param cpatcha query string false "cpatcha"
-// @Param cpatcha_md5 query string false "cpatcha_md5"
-// @Success 200 {string} json "{"code": 0,"msg": "success","data": ""}"
-// @Failure 400 {string} json "{"code": 1, "msg": "error"}"
+// @Param object query loginValidate false "put message"
+// @Success 200 {object} _returnLoginPut
+// @Failure 400 {object} _returnError
 // @Router /admin/login/index [put]
 // Put is login function
 func (a *Login) Put(c *gin.Context) {

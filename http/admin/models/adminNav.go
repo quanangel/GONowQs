@@ -13,8 +13,3 @@ type AdminNav struct {
 func NewAdminNav() AdminNav {
 	return AdminNav{}
 }
-
-func (m *AdminNav) GetOne(userID int64, search map[string]interface{}) *AdminNav {
-
-	return m
-}

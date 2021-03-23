@@ -1,0 +1,338 @@
+definitions:
+  controller._returnError:
+    properties:
+      code:
+        description: error code
+        example: 1
+        type: integer
+      msg:
+        description: message
+        example: error
+        type: string
+    type: object
+  controller._returnLoginGet:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        properties:
+          last_ip:
+            description: last ip
+            example: 127.0.0.1
+            type: string
+          last_time:
+            description: last time
+            example: "1234567890"
+            type: string
+          nickname:
+            description: nick name
+            example: nickname
+            type: string
+          register_time:
+            description: register time
+            example: "1234567890"
+            type: string
+          username:
+            description: user name
+            example: username
+            type: string
+        type: object
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  controller._returnLoginPut:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        description: token
+        example: token
+        type: string
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  controller._returnNavGetList:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        description: data
+        properties:
+          data:
+            items:
+              $ref: '#/definitions/models.AdminNav'
+            type: array
+          limit:
+            description: limit
+            example: 20
+            type: integer
+          page:
+            description: page
+            example: 1
+            type: integer
+          total:
+            description: total
+            example: 100
+            type: integer
+        type: object
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  controller._returnNavGetOnly:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        $ref: '#/definitions/models.AdminNav'
+        description: data
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  controller._returnSuccess:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  models.AdminNav:
+    properties:
+      addTime:
+        description: add time
+        type: integer
+      id:
+        description: id
+        type: integer
+      name:
+        description: name
+        type: string
+      pid:
+        description: pid
+        type: integer
+      status:
+        description: 'status: 1normal、2disable'
+        type: integer
+      updateTime:
+        description: udpate time
+        type: integer
+      url:
+        description: url
+        type: string
+    type: object
+info:
+  contact:
+    email: quanangel@outlook.com
+    name: Qs
+  description: This is Api Document
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: NowQS Farme Admin Api
+  version: 0.0.1
+paths:
+  /admin/login/index:
+    get:
+      description: Login
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnLoginGet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: Login
+      tags:
+      - Login
+    put:
+      description: Login
+      parameters:
+      - in: query
+        name: cpatcha
+        type: string
+      - in: query
+        name: cpatcha_md5
+        type: string
+      - in: query
+        name: last_ip
+        type: string
+      - in: query
+        name: password
+        required: true
+        type: string
+      - in: query
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnLoginPut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: Login
+      tags:
+      - Login
+  /admin/nav/index:
+    get:
+      description: admin nav
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      - description: 'search: type is only the search is id, type is list the search
+          is id/name/url'
+        in: query
+        name: search
+        type: string
+      - description: 'type: list、only'
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "1":
+          description: ""
+          schema:
+            $ref: '#/definitions/controller._returnNavGetList'
+        "2":
+          description: ""
+          schema:
+            $ref: '#/definitions/controller._returnNavGetOnly'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: Nav
+      tags:
+      - Nav
+    post:
+      description: admin
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      - description: name
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: pid
+        in: query
+        name: pid
+        type: integer
+      - description: 'status: 1normal、2disable'
+        in: query
+        name: status
+        type: integer
+      - description: url
+        in: query
+        name: url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: Nav
+      tags:
+      - Nav
+    put:
+      description: admin nav
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: integer
+      - description: name
+        in: query
+        name: name
+        type: string
+      - description: pid
+        in: query
+        name: pid
+        type: string
+      - description: 'status: 1normal、2disable'
+        in: query
+        name: status
+        type: string
+      - description: url
+        in: query
+        name: url
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Nav
+      tags:
+      - Nav
+swagger: "2.0"
