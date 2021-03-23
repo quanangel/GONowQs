@@ -9,9 +9,9 @@ import (
 // Member is member table struct
 type Member struct {
 	// user id
-	UserID int64 `gorm:"column:user_id;type:bigint(20);primaryKey;autoIncrement;comment:user id"`
+	UserID int64 `gorm:"column:user_id;type:bigint(20) auto_increment;primaryKey;comment:user id"`
 	// user name
-	UserName string `gorm:"column:user_name;type:varchar(50);index;not null;comment:user name"`
+	UserName string `gorm:"column:user_name;type:varchar(50);index:user_name;not null;comment:user name"`
 	// nick name
 	NickName string `gorm:"column:nick_name;type:varchar(50);not null;comment:nick name"`
 	// password

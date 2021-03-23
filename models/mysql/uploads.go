@@ -5,7 +5,7 @@ import "time"
 // Uploads is uploads table struct
 type Uploads struct {
 	// id
-	ID int64 `gorm:"column:id;type:bigint(20);primaryKey;autoIncrement;comment:id"`
+	ID int64 `gorm:"column:id;type:bigint(20) auto_increment;primaryKey;comment:id"`
 	// file name
 	FileName string `gorm:"column:file_name;type:varchar(255);not null;comment:file name"`
 	// file type

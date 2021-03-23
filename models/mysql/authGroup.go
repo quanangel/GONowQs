@@ -10,7 +10,7 @@ import (
 // AuthGroup is auth_group table
 type AuthGroup struct {
 	// id
-	ID int `gorm:"column:id;type:int(10);primaryKey;autoIncrement;comment:id"`
+	ID int `gorm:"column:id;type:int(10) auto_increment;primaryKey;comment:id"`
 	// name
 	Name string `gorm:"column:name;type:varchar(20);not null;comment:name"`
 	// status: 1normal、2disable

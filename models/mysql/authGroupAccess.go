@@ -4,10 +4,11 @@ import "time"
 
 // AuthGroupAccess is auth_group_access table struct
 type AuthGroupAccess struct {
+	ID int64 `gorm:"column:id;type:bigint(20) auto_increment;primaryKey;comment:id"`
 	// user id
-	UserID int64 `gorm:"column:user_id;type:bigint(20);index;not null;comment:user id"`
+	UserID int64 `gorm:"column:user_id;type:bigint(20);index:user_id;not null;comment:user id"`
 	// group id
-	GroupID int `gorm:"column:group_id;type:int(10);index;not null;comment:group id"`
+	GroupID int `gorm:"column:group_id;type:int(10);index:group_id;not null;comment:group id"`
 	// add time
 	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
 }

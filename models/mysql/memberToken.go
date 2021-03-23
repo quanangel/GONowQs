@@ -4,6 +4,8 @@ import "time"
 
 // MemberToken is member_token table struct
 type MemberToken struct {
+	// id
+	ID int64 `gorm:"column:id;type:bigint(20) auto_increment;primaryKey;comment:id"`
 	// user id
 	UserID int64 `gorm:"column:user_id;type:bigint(20);index;not null;comment:user id"`
 	// token

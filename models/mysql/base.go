@@ -64,7 +64,7 @@ func InitDb() {
 		sqlDb.SetMaxOpenConns(config.AppConfig.Db.SetMaxOpenConns)
 
 		db := GetDb()
-		db.AutoMigrate(MemberToken{})
+		db.AutoMigrate(&AuthRule{}, &AuthGroup{}, &AuthGroupAccess{}, &AdminNav{}, &Member{}, &MemberToken{})
 
 	} else {
 		logWrite("db status is close")

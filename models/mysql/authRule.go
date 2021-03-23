@@ -4,9 +4,9 @@ import "time"
 
 type AuthRule struct {
 	// id
-	ID int `gorm:"column:id;type:int(10);primaryKey;autoIncrement;comment:id"`
+	ID int `gorm:"column:id;type:int(10) auto_increment;primaryKey;comment:id"`
 	// Pid
-	PID int `gorm:"column:pid;type:int(10);index;default:0;comment:up one level id"`
+	PID int `gorm:"column:pid;type:int(10);index:pid;default:0;comment:up one level id"`
 	// name
 	Name string `gorm:"column:name;type:varchar(20);not null;comment:name"`
 	// url
