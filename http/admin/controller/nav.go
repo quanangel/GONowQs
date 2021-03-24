@@ -51,6 +51,11 @@ type navPutValidate struct {
 	Status string `form:"status" json:"status" xml:"status" binding:"omitempty"`
 }
 
+type navDeleteValidate struct {
+	// id
+	ID int `form:"id" json:"id" xml:"id" binding:"required"`
+}
+
 // @Summary Nav
 // @Tags Nav
 // @Description admin nav
@@ -129,17 +134,17 @@ func (a *Nav) Get(c *gin.Context) {
 // @Failure 400 {object} _returnError
 // @Router /admin/nav/index [post]
 // Post is post nav message
-func (m *Nav) Post(c *gin.Context) {
+func (a *Nav) Post(c *gin.Context) {
 	returnData := gin.H{
 		"code": -1,
 	}
 
-	// isPower := checkRuleByUser(c)
-	// if !isPower {
-	// 	returnData["code"] = 2
-	// 	c.JSON(jsonHandle(returnData))
-	// 	return
-	// }
+	isPower := checkRuleByUser(c)
+	if !isPower {
+		returnData["code"] = 2
+		c.JSON(jsonHandle(returnData))
+		return
+	}
 
 	var validate navPostValidate
 	if err := c.Bind(&validate); err != nil {
@@ -172,22 +177,23 @@ func (m *Nav) Post(c *gin.Context) {
 // @Failure 400 {string} _returnError
 // @Router /admin/nav/index [put]
 // Put is put nav message
-func (m *Nav) Put(c *gin.Context) {
+func (a *Nav) Put(c *gin.Context) {
 	returnData := gin.H{
 		"code": -1,
 	}
 
-	// isPower := checkRuleByUser(c)
-	// if !isPower {
-	// 	returnData["code"] = 2
-	// 	c.JSON(jsonHandle(returnData))
-	// 	return
-	// }
+	isPower := checkRuleByUser(c)
+	if !isPower {
+		returnData["code"] = 2
+		c.JSON(jsonHandle(returnData))
+		return
+	}
 
 	var validate navPutValidate
 
 	if err := c.Bind(&validate); err != nil {
-		returnData["code"] = 1
+		returnData["code"] = 10000
+		returnData["mes"] = err.Error()
 		c.JSON(jsonHandle(returnData))
 		return
 	}
@@ -207,6 +213,49 @@ func (m *Nav) Put(c *gin.Context) {
 	} else {
 		returnData["code"] = 1
 	}
+	c.JSON(jsonHandle(returnData))
+	return
+}
+
+// @Summary Nav
+// @Tags Nav
+// @Description admin nav
+// @Produce json
+// @Param Auth-Token header string true 'Auth-Token'
+// @Param object query navDeleteValidate false 'delete message'
+// @Success 200 {object} _returnSuccess
+// @Failure 400 {object} _returnError
+// @Router /admin/nav/index [delete]
+func (a *Nav) Delete(c *gin.Context) {
+	returnData := gin.H{
+		"code": -1,
+	}
+
+	isPower := checkRuleByUser(c)
+	if !isPower {
+		returnData["code"] = 2
+		c.JSON(jsonHandle(returnData))
+		return
+	}
+
+	var validate navDeleteValidate
+	if err := c.Bind(validate); err != nil {
+		returnData["code"] = 10000
+		returnData["mes"] = err.Error()
+		c.JSON(jsonHandle(returnData))
+		return
+	}
+
+	model := models.NewAdminNav()
+	search := make(map[string]interface{})
+	search["id"] = validate.ID
+	result := model.Del(search)
+	if result {
+		returnData["code"] = 0
+	} else {
+		returnData["code"] = 1
+	}
+
 	c.JSON(jsonHandle(returnData))
 	return
 }
