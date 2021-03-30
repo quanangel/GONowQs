@@ -1,6 +1,9 @@
 package mysql
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type AuthRule struct {
 	// id
@@ -61,10 +64,10 @@ func (m *AuthRule) Del(search map[string]interface{}) bool {
 }
 
 // GetList is authRuel message by list
-func (m *AuthRule) GetList(search map[string]string, page int, limit int) (lists *[]AuthRule) {
+func (m *AuthRule) GetList(search map[string]interface{}, page int, limit int) (lists *[]AuthRule) {
 	db := GetDb()
 	for key := range search {
-		db.Or(key+" LIKE ?", "%"+search[key]+"%")
+		db.Or(key+" LIKE ?", "%"+fmt.Sprintf("%v", search[key])+"%")
 	}
 	db.Offset((page - 1) * limit).Limit(page * limit).Find(lists)
 	return lists

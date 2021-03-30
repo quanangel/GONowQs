@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -42,13 +43,13 @@ func (m *AuthGroup) Add(name string, status int8, rules string) int {
 }
 
 // Edit is edit the group message function
-func (m *AuthGroup) Edit(search map[string]interface{}, data map[string]interface{}) int64 {
+func (m *AuthGroup) Edit(search map[string]interface{}, data map[string]interface{}) bool {
 	db := GetDb()
 	result := db.Where(search).Updates(data)
 	if result.RowsAffected > 0 {
-		return result.RowsAffected
+		return true
 	}
-	return 0
+	return false
 }
 
 // Del is batch delete auth group and group access message function
@@ -124,4 +125,21 @@ func (m *AuthGroup) GetRules(userID int64) (rules map[int]int) {
 		}
 	}
 	return rules
+}
+
+// GetList is get message list
+func (m *AuthGroup) GetList(search map[string]interface{}, page int, limit int) (list *[]AuthGroup) {
+	db := GetDb()
+	for key := range search {
+		db.Or(key+" LIKE ?", "%"+fmt.Sprintf("%v", search[key])+"%")
+	}
+	db.Offset((page - 1) * limit).Limit(page * limit).Find(list)
+	return list
+}
+
+// GetByID is get message by id
+func (m *AuthGroup) GetByID(id int) *AuthGroup {
+	db := GetDb()
+	db.Where("id=?", id).First(m)
+	return m
 }
