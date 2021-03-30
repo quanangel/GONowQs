@@ -76,7 +76,7 @@ func (a *Nav) Get(c *gin.Context) {
 	isPower := checkRuleByUser(c)
 	if !isPower {
 		returnData["code"] = 2
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
@@ -84,7 +84,7 @@ func (a *Nav) Get(c *gin.Context) {
 	if err := c.Bind(&validate); err != nil {
 		returnData["code"] = 10000
 		returnData["mes"] = err.Error()
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
@@ -122,7 +122,7 @@ func (a *Nav) Get(c *gin.Context) {
 		}
 	}
 
-	c.JSON(jsonHandle(returnData))
+	jsonHandle(c, returnData)
 	return
 }
 
@@ -144,7 +144,7 @@ func (a *Nav) Post(c *gin.Context) {
 	isPower := checkRuleByUser(c)
 	if !isPower {
 		returnData["code"] = 2
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
@@ -152,7 +152,7 @@ func (a *Nav) Post(c *gin.Context) {
 	if err := c.Bind(&validate); err != nil {
 		returnData["code"] = 10000
 		returnData["mes"] = err.Error()
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
@@ -160,12 +160,12 @@ func (a *Nav) Post(c *gin.Context) {
 	result := model.Add(validate.Name, validate.PID, validate.Url, validate.Status)
 	if 0 == result {
 		returnData["code"] = 1
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
 	returnData["code"] = 0
-	c.JSON(jsonHandle(returnData))
+	jsonHandle(c, returnData)
 	return
 }
 
@@ -187,7 +187,7 @@ func (a *Nav) Put(c *gin.Context) {
 	isPower := checkRuleByUser(c)
 	if !isPower {
 		returnData["code"] = 2
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
@@ -196,7 +196,7 @@ func (a *Nav) Put(c *gin.Context) {
 	if err := c.Bind(&validate); err != nil {
 		returnData["code"] = 10000
 		returnData["mes"] = err.Error()
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 	model := models.NewAdminNav()
@@ -215,7 +215,7 @@ func (a *Nav) Put(c *gin.Context) {
 	} else {
 		returnData["code"] = 1
 	}
-	c.JSON(jsonHandle(returnData))
+	jsonHandle(c, returnData)
 	return
 }
 
@@ -236,7 +236,7 @@ func (a *Nav) Delete(c *gin.Context) {
 	isPower := checkRuleByUser(c)
 	if !isPower {
 		returnData["code"] = 2
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
@@ -244,7 +244,7 @@ func (a *Nav) Delete(c *gin.Context) {
 	if err := c.Bind(validate); err != nil {
 		returnData["code"] = 10000
 		returnData["mes"] = err.Error()
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
@@ -258,6 +258,6 @@ func (a *Nav) Delete(c *gin.Context) {
 		returnData["code"] = 1
 	}
 
-	c.JSON(jsonHandle(returnData))
+	jsonHandle(c, returnData)
 	return
 }

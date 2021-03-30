@@ -107,7 +107,7 @@ func tokenGet(userID int64) string {
 }
 
 // jsonHandle is handle returnData message
-func jsonHandle(data map[string]interface{}) (int, map[string]interface{}) {
+func jsonHandle(c *gin.Context, data map[string]interface{}) {
 	code := http.StatusOK
 	switch data["code"] {
 	case 0:
@@ -119,7 +119,8 @@ func jsonHandle(data map[string]interface{}) (int, map[string]interface{}) {
 		errorCode := reflect.ValueOf(data["code"]).Int()
 		data["msg"] = errorMsg(int(errorCode))
 	}
-	return code, data
+	c.JSON(code, data)
+	return
 }
 
 // checkRuleByUser is chekc user is it hava permission

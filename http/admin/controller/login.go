@@ -40,14 +40,14 @@ func (a *Login) Get(c *gin.Context) {
 	authToken := c.GetHeader("Auth-Token")
 	if "" == authToken {
 		returnData["code"] = 3
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
 	userID := userAuth(authToken)
 	if 0 == userID {
 		returnData["code"] = 2
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
@@ -55,7 +55,7 @@ func (a *Login) Get(c *gin.Context) {
 	userInfo := modelMember.GetByID(userID)
 	if 1 != userInfo.Status {
 		returnData["code"] = 20000
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
@@ -68,7 +68,7 @@ func (a *Login) Get(c *gin.Context) {
 		"register_time": userInfo.RegisterTime,
 	}
 
-	c.JSON(jsonHandle(returnData))
+	jsonHandle(c, returnData)
 	return
 }
 
@@ -90,7 +90,7 @@ func (a *Login) Put(c *gin.Context) {
 	if err := c.Bind(&validate); err != nil {
 		returnData["code"] = 10000
 		returnData["msg"] = err.Error()
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 	if validate.LastIP == "" {
@@ -100,7 +100,7 @@ func (a *Login) Put(c *gin.Context) {
 	userInfo := modelMember.Login(validate.UserName, validate.Password, validate.LastIP)
 	if userInfo.UserID == 0 {
 		returnData["code"] = 20000
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
@@ -109,12 +109,12 @@ func (a *Login) Put(c *gin.Context) {
 	if nil != err {
 		returnData["code"] = 30000
 		returnData["msg"] = err.Error()
-		c.JSON(jsonHandle(returnData))
+		jsonHandle(c, returnData)
 		return
 	}
 
 	returnData["code"] = 0
 	returnData["data"] = userToken
-	c.JSON(jsonHandle(returnData))
+	jsonHandle(c, returnData)
 	return
 }
