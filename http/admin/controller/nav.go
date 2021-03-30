@@ -38,6 +38,7 @@ type navPostValidate struct {
 	Status int8 `form:"status" json:"status" xml:"status" binding:"oneof=1 2"`
 }
 
+// navPutValidate is put validate struct
 type navPutValidate struct {
 	// id
 	ID int `form:"id" json:"id" xml:"id" binding:"required"`
@@ -51,6 +52,7 @@ type navPutValidate struct {
 	Status string `form:"status" json:"status" xml:"status" binding:"omitempty"`
 }
 
+// navDeleteValidate is delete validate struct
 type navDeleteValidate struct {
 	// id
 	ID int `form:"id" json:"id" xml:"id" binding:"required"`
