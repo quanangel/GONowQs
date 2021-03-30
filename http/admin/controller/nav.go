@@ -103,13 +103,18 @@ func (a *Nav) Get(c *gin.Context) {
 		if 0 == validate.Limit {
 			validate.Limit = 20
 		}
-		result := model.GetList(search, validate.Page, validate.Limit)
-		if 0 == len(*result) {
+		total, result := model.GetList(search, validate.Page, validate.Limit)
+		if 0 == total {
 			returnData["code"] = 6
 
 		} else {
 			returnData["code"] = 0
-			returnData["data"] = result
+			returnData["data"] = gin.H{
+				"total": total,
+				"page":  validate.Page,
+				"limit": validate.Limit,
+				"data":  result,
+			}
 		}
 	case "only":
 		search["id"] = validate.Search
