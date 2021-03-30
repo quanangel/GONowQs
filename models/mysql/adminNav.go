@@ -15,7 +15,7 @@ type AdminNav struct {
 	// name
 	Name string `gorm:"column:name;type:varchar(10);not null;comment:name"`
 	// url
-	Url string `gorm:"column:name;type:varchar(100);comment:url"`
+	Url string `gorm:"column:url;type:varchar(100);comment:url"`
 	// status: 1normal、2disable
 	Status int8 `gorm:"column:status;type:tinyint(1);default:1;comment:status:1normal、2disable"`
 	// add time
@@ -87,12 +87,23 @@ func (m *AdminNav) GetOne(search map[string]interface{}) *AdminNav {
 }
 
 // GetList is get list by search
-func (m *AdminNav) GetList(search map[string]interface{}, page int, limit int) (list *[]AdminNav) {
+func (m *AdminNav) GetList(search map[string]interface{}, page int, limit int) (total int64, list []AdminNav) {
+
 	db := GetDb()
-	db.Where(search)
+	if nil != search["id"] {
+		db.Or("id like ?", "%"+fmt.Sprintf("%v", search["id"])+"%")
+	}
 	if nil != search["name"] {
 		db.Or("name like ?", "%"+fmt.Sprintf("%v", search["name"])+"%")
 	}
-	db.Offset((page - 1) * limit).Limit(page * limit).Find(list)
-	return list
+	if nil != search["url"] {
+		db.Or("url like ?", "%"+fmt.Sprintf("%v", search["url"])+"%")
+	}
+	db.Count(&total)
+	total = 1
+	if 0 != total {
+		db.Offset((page - 1) * limit).Limit(page * limit).Find(&list)
+	}
+
+	return total, list
 }
