@@ -66,7 +66,7 @@ func analysisToken(token string) int64 {
 // userAuth is user authenticity function
 func userAuth(token string) int64 {
 	userID := analysisToken(token)
-	if 0 == userID {
+	if userID == 0 {
 		return 0
 	}
 	serverToken := tokenGet(userID)
@@ -97,7 +97,7 @@ func tokenSave(userID int64, token string) error {
 // tokenGet is get token by function
 func tokenGet(userID int64) string {
 	var token string = ""
-	if false == config.AppConfig.Redis.Status {
+	if !config.AppConfig.Redis.Status {
 		modelMemberToken := models.NewMemberToken()
 		token = modelMemberToken.GetTokenByID(userID)
 	} else {
@@ -115,19 +115,18 @@ func jsonHandle(c *gin.Context, data map[string]interface{}) {
 	default:
 		code = http.StatusBadRequest
 	}
-	if "" == data["msg"] || nil == data["msg"] {
+	if data["msg"] == "" || data["msg"] == nil {
 		errorCode := reflect.ValueOf(data["code"]).Int()
 		data["msg"] = errorMsg(int(errorCode))
 	}
 	c.JSON(code, data)
-	return
 }
 
 // checkRuleByUser is chekc user is it hava permission
 func checkRuleByUser(c *gin.Context) bool {
 
 	userID := userAuth(c.GetHeader("Auth-Token"))
-	if 0 == userID {
+	if userID == 0 {
 		return false
 	}
 

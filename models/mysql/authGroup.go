@@ -128,7 +128,7 @@ func (m *AuthGroup) GetRules(userID int64) (rules map[int]int) {
 }
 
 // GetList is get message list
-func (m *AuthGroup) GetList(search map[string]interface{}, page int, limit int) (list *[]AuthGroup) {
+func (m *AuthGroup) GetList(search map[string]interface{}, page int, limit int) (list []AuthGroup) {
 	db := GetDb()
 	for key := range search {
 		db.Or(key+" LIKE ?", "%"+fmt.Sprintf("%v", search[key])+"%")

@@ -92,19 +92,19 @@ func (a *Nav) Get(c *gin.Context) {
 	search := make(map[string]interface{})
 	switch validate.Type {
 	case "list":
-		if "" != validate.Search {
+		if validate.Search != "" {
 			search["id"] = validate.Search
 			search["name"] = validate.Search
 			search["url"] = validate.Search
 		}
-		if 0 == validate.Page {
+		if validate.Page == 0 {
 			validate.Page = 1
 		}
-		if 0 == validate.Limit {
+		if validate.Limit == 0 {
 			validate.Limit = 20
 		}
 		total, result := model.GetList(search, validate.Page, validate.Limit)
-		if 0 == total {
+		if total == 0 {
 			returnData["code"] = 6
 
 		} else {
@@ -119,7 +119,7 @@ func (a *Nav) Get(c *gin.Context) {
 	case "only":
 		search["id"] = validate.Search
 		result := model.GetOne(search)
-		if 0 == result.ID {
+		if result.ID == 0 {
 			returnData["code"] = 6
 		} else {
 			returnData["code"] = 0
@@ -128,7 +128,6 @@ func (a *Nav) Get(c *gin.Context) {
 	}
 
 	jsonHandle(c, returnData)
-	return
 }
 
 // @Summary Nav
@@ -163,7 +162,7 @@ func (a *Nav) Post(c *gin.Context) {
 
 	model := models.NewAdminNav()
 	result := model.Add(validate.Name, validate.PID, validate.Url, validate.Status)
-	if 0 == result {
+	if result == 0 {
 		returnData["code"] = 1
 		jsonHandle(c, returnData)
 		return
@@ -171,7 +170,6 @@ func (a *Nav) Post(c *gin.Context) {
 
 	returnData["code"] = 0
 	jsonHandle(c, returnData)
-	return
 }
 
 // @Summary Nav
@@ -208,10 +206,10 @@ func (a *Nav) Put(c *gin.Context) {
 	search := make(map[string]interface{})
 	search["id"] = validate.ID
 	update := make(map[string]interface{})
-	if "" != validate.Name {
+	if validate.Name != "" {
 		update["name"] = validate.Name
 	}
-	if "" != validate.PID {
+	if validate.PID != "" {
 		update["pid"] = validate.PID
 	}
 	result := model.Edit(search, update)
@@ -221,7 +219,6 @@ func (a *Nav) Put(c *gin.Context) {
 		returnData["code"] = 1
 	}
 	jsonHandle(c, returnData)
-	return
 }
 
 // @Summary Nav
@@ -264,5 +261,4 @@ func (a *Nav) Delete(c *gin.Context) {
 	}
 
 	jsonHandle(c, returnData)
-	return
 }

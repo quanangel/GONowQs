@@ -26,8 +26,8 @@ type authGroupGetValidate struct {
 	Limit int `form:"limit" json:"limit" xml:"limit" binding:"-"`
 }
 
-type authGroupPostValidate struct {
-}
+// type authGroupPostValidate struct {
+// }
 
 // Get is get auth group message
 func (a *AuthGroup) Get(c *gin.Context) {
@@ -53,29 +53,28 @@ func (a *AuthGroup) Get(c *gin.Context) {
 	search := make(map[string]interface{})
 	switch validate.Type {
 	case "list":
-		if "" != validate.Search {
+		if validate.Search != "" {
 			search["id"] = validate.Search
 			search["name"] = validate.Search
 		}
-		if 0 == validate.Page {
+		if validate.Page == 0 {
 			validate.Page = 1
 		}
-		if 0 == validate.Limit {
+		if validate.Limit == 0 {
 			validate.Limit = 20
 		}
 		result := model.GetGroupList(search, validate.Page, validate.Limit)
-		if 0 == len(*result) {
+		if len(result) == 0 {
 			returnData["code"] = 6
 		} else {
 			returnData["code"] = 0
-			returnData["data"] = &result
+			returnData["data"] = result
 
 		}
 	case "only":
 	}
 
 	jsonHandle(c, returnData)
-	return
 }
 
 // Post is add auth group message
@@ -92,7 +91,6 @@ func (a *AuthGroup) Post(c *gin.Context) {
 	// TODO:
 
 	jsonHandle(c, returnData)
-	return
 }
 
 // Put is edit auth group message
@@ -109,7 +107,6 @@ func (a *AuthGroup) Put(c *gin.Context) {
 	// TODO:
 
 	jsonHandle(c, returnData)
-	return
 }
 
 // Delete is delete auth group message
@@ -126,5 +123,4 @@ func (a *AuthGroup) Delete(c *gin.Context) {
 	// TODO:
 
 	jsonHandle(c, returnData)
-	return
 }

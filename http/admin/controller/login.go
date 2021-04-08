@@ -38,14 +38,14 @@ func (a *Login) Get(c *gin.Context) {
 		"code": -1,
 	}
 	authToken := c.GetHeader("Auth-Token")
-	if "" == authToken {
+	if authToken == "" {
 		returnData["code"] = 3
 		jsonHandle(c, returnData)
 		return
 	}
 
 	userID := userAuth(authToken)
-	if 0 == userID {
+	if userID == 0 {
 		returnData["code"] = 2
 		jsonHandle(c, returnData)
 		return
@@ -53,7 +53,7 @@ func (a *Login) Get(c *gin.Context) {
 
 	modelMember := models.NewMember()
 	userInfo := modelMember.GetByID(userID)
-	if 1 != userInfo.Status {
+	if userInfo.Status != 1 {
 		returnData["code"] = 20000
 		jsonHandle(c, returnData)
 		return
@@ -69,7 +69,6 @@ func (a *Login) Get(c *gin.Context) {
 	}
 
 	jsonHandle(c, returnData)
-	return
 }
 
 // @Summary Login
@@ -116,5 +115,4 @@ func (a *Login) Put(c *gin.Context) {
 	returnData["code"] = 0
 	returnData["data"] = userToken
 	jsonHandle(c, returnData)
-	return
 }

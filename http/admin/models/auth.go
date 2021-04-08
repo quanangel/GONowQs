@@ -24,7 +24,7 @@ func (m *Auth) GetRule(userID int64) map[int]int {
 }
 
 // GetGroupList is get auth group list
-func (m *Auth) GetGroupList(search map[string]interface{}, page int, limit int) *[]mysql.AuthGroup {
+func (m *Auth) GetGroupList(search map[string]interface{}, page int, limit int) []mysql.AuthGroup {
 	authGroup := mysql.AuthGroup{}
 	return authGroup.GetList(search, page, limit)
 }
