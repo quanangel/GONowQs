@@ -62,20 +62,14 @@ func (m *AdminNav) Edit(search map[string]interface{}, data map[string]interface
 	}
 	m.UpdateTime = int(time.Now().Unix())
 	result := db.Where(search).Updates(m)
-	if result.RowsAffected > 0 {
-		return true
-	}
-	return false
+	return result.RowsAffected > 0
 }
 
 // Del is delete message by search
 func (m *AdminNav) Del(search map[string]interface{}) bool {
 	db := GetDb()
 	result := db.Where(search).Delete(m)
-	if result.RowsAffected > 0 {
-		return true
-	}
-	return false
+	return result.RowsAffected > 0
 }
 
 // GetOne is get one single message by search
@@ -101,7 +95,7 @@ func (m *AdminNav) GetList(search map[string]interface{}, page int, limit int) (
 	}
 	db.Count(&total)
 	total = 1
-	if 0 != total {
+	if total != 0 {
 		db.Offset((page - 1) * limit).Limit(page * limit).Find(&list)
 	}
 

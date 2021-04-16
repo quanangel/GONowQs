@@ -46,10 +46,7 @@ func (m *AuthGroup) Add(name string, status int8, rules string) int {
 func (m *AuthGroup) Edit(search map[string]interface{}, data map[string]interface{}) bool {
 	db := GetDb()
 	result := db.Where(search).Updates(data)
-	if result.RowsAffected > 0 {
-		return true
-	}
-	return false
+	return result.RowsAffected > 0
 }
 
 // Del is batch delete auth group and group access message function
@@ -78,10 +75,7 @@ func (m *AuthGroup) Del(search map[string]interface{}) bool {
 		}
 		return nil
 	})
-	if resultErr != nil {
-		return false
-	}
-	return true
+	return resultErr != nil
 }
 
 // CheckUser is check the user is it have permission
@@ -91,15 +85,12 @@ func (m *AuthGroup) CheckUser(userID int64, url string, condition string) bool {
 	ruleIdMap := m.GetRules(userID)
 
 	err := db.Where("id IN ? AND url = ? AND condition=? AND status = 1", ruleIdMap, url, condition).First(m).Error
-	if nil != err {
-		return false
-	}
-
-	return true
+	return err != nil
 }
 
 // GetRules is get rules map
 func (m *AuthGroup) GetRules(userID int64) (rules map[int]int) {
+	rules = make(map[int]int)
 	db := GetDb()
 	accessKV := make(map[int]AuthGroupAccess)
 	err := db.Where("user_id = ?", userID).Find(accessKV).Error
@@ -114,7 +105,9 @@ func (m *AuthGroup) GetRules(userID int64) (rules map[int]int) {
 
 	groupKV := make(map[int]AuthGroup)
 	err = db.Where("id IN ?", groupIdMap).Find(groupKV).Error
-
+	if err != nil {
+		return rules
+	}
 	for _, value := range groupKV {
 		if len(value.Rules) > 0 {
 			tmp := strings.Split(value.Rules, ",")

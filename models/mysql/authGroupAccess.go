@@ -25,10 +25,7 @@ func (m *AuthGroupAccess) Add(userID int64, groupID int) bool {
 	m.AddTime = int(time.Now().Unix())
 	db := GetDb()
 	result := db.Create(m)
-	if result.RowsAffected > 0 {
-		return true
-	}
-	return false
+	return result.RowsAffected > 0
 }
 
 // Del is delete message function

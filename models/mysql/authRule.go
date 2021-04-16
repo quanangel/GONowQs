@@ -12,12 +12,14 @@ type AuthRule struct {
 	PID int `gorm:"column:pid;type:int(10);index:pid;default:0;comment:up one level id"`
 	// name
 	Name string `gorm:"column:name;type:varchar(20);not null;comment:name"`
+	// type
+	Type int8 `gorm:"column:type;type:tinyint(1);default:2;comment:1url/2method"`
 	// url
 	Url string `gorm:"column:url;type:varchar(200);comment:url"`
 	// Condition
 	Condition string `gorm:"column:condition;type:varchar(100);comment:condition"`
 	// status: 1normal、2disable
-	Status int8 `gorm:"column:status;type:tinyint(1);default:1;status:1normal、2disable"`
+	Status int8 `gorm:"column:status;type:tinyint(1);default:1;comment:1normal、2disable"`
 	// add time
 	AddTime int `gorm:"column:add_time;type:int(10);not null;add time"`
 }
@@ -47,20 +49,14 @@ func (m *AuthRule) Add(pid int, name string, url string, condition string, statu
 func (m *AuthRule) Edit(search map[string]interface{}, data map[string]interface{}) bool {
 	db := GetDb()
 	result := db.Where(search).Updates(data)
-	if result.RowsAffected > 0 {
-		return true
-	}
-	return false
+	return result.RowsAffected > 0
 }
 
 // Del is AuthRule delete message function
 func (m *AuthRule) Del(search map[string]interface{}) bool {
 	db := GetDb()
 	result := db.Where(search).Delete(m)
-	if result.RowsAffected > 0 {
-		return true
-	}
-	return false
+	return result.RowsAffected > 0
 }
 
 // GetList is authRuel message by list

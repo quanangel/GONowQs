@@ -26,10 +26,7 @@ func (m *MemberToken) Add(userID int64, token string) bool {
 	m.AddTime = int(time.Now().Unix())
 	db := GetDb()
 	result := db.Create(m)
-	if result.RowsAffected > 0 {
-		return true
-	}
-	return false
+	return result.RowsAffected > 0
 }
 
 // GetTokenByID is get token by userID function
@@ -43,8 +40,5 @@ func (m *MemberToken) GetTokenByID(userID int64) string {
 func (m *MemberToken) Del(userID int64, token string) bool {
 	db := GetDb()
 	result := db.Where("user_id=? and token=?", userID, token).Delete(m)
-	if result.RowsAffected > 0 {
-		return true
-	}
-	return false
+	return result.RowsAffected > 0
 }
