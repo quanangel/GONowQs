@@ -30,6 +30,7 @@ var (
 
 var (
 	rootPath   string
+	httpPath   string
 	configPath string
 	logPath    string
 	uploadPath string
@@ -43,6 +44,7 @@ func init() {
 	logPath = rootPath + PathSeparator + "log"
 	uploadPath = rootPath + PathSeparator + "upload"
 	assetsPath = rootPath + PathSeparator + "assets"
+	httpPath = rootPath + PathSeparator + "http"
 	AppConfig = getConfig()
 }
 
@@ -61,6 +63,16 @@ func GetUploadPath() string {
 	return uploadPath
 }
 
+// GetHttpPath is get http path
+func GetHttpPath() string {
+	return httpPath
+}
+
+// GetAssetsPath is get assets path
+func GetAssetsPath() string {
+	return assetsPath
+}
+
 // getConfig is get Config message
 func getConfig() *Config {
 
@@ -69,8 +81,8 @@ func getConfig() *Config {
 	_, errFile := os.Stat(configFile)
 	if errFile == nil {
 		configFile, errOpen := os.Open(configFile)
-		defer configFile.Close()
 		whiteLog(errOpen)
+		defer configFile.Close()
 		decode := json.NewDecoder(configFile)
 		errDecode := decode.Decode(&config)
 		whiteLog(errDecode)
