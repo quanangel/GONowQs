@@ -116,13 +116,8 @@ func (config *CaptchaOptions) New() (*CaptchaData, error) {
 	// TODO: draw color
 	img := image.NewNRGBA(image.Rect(0, 0, config.Width, config.Height))
 	draw.Draw(img, img.Bounds(), &image.Uniform{color.Transparent}, image.ZP, draw.Src)
-	// step 3 draw curve
-	for i := 0; i < config.CurveNumber; i++ {
-		config.drawCurve(img)
-	}
-	// step 4 draw noise
-	config.drawNoise(img)
-	// step 5 draw code
+
+	// step 3 draw code
 	err := config.getFontByte()
 	if err != nil {
 		return nil, err
@@ -132,6 +127,13 @@ func (config *CaptchaOptions) New() (*CaptchaData, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	// step 4 draw curve
+	for i := 0; i < config.CurveNumber; i++ {
+		config.drawCurve(img)
+	}
+	// step 5 draw noise
+	config.drawNoise(img)
 
 	pngTemp := bytes.NewBuffer(nil)
 	err = png.Encode(pngTemp, img)
