@@ -1,15 +1,7 @@
 package main
 
-// import "nowqs/frame/cli"
-
-import (
-	"fmt"
-	"nowqs/frame/utils"
-)
+import "nowqs/frame/cli"
 
 func main() {
-	// cli.Run()
-	a := utils.NewDefaultOptions()
-
-	fmt.Printf("%v", a.New())
+	cli.Run()
 }
