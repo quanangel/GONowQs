@@ -17,7 +17,7 @@ type AuthRule struct {
 	// url
 	Url string `gorm:"column:url;type:varchar(200);comment:url"`
 	// Condition
-	Condition string `gorm:"column:condition;type:varchar(100);comment:condition"`
+	Condition string `gorm:"column:condition;type:varchar(200);comment:condition"`
 	// status: 1normal、2disable
 	Status int8 `gorm:"column:status;type:tinyint(1);default:1;comment:1normal、2disable"`
 	// add time
