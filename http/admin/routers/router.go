@@ -10,8 +10,7 @@ import (
 
 // NewRouters is admin routers function
 func NewRouters(r *gin.Engine) *gin.Engine {
-	r.Use(adminMiddleware.Logger())
-	r.Use(middleware.Cors())
+
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "ok",
@@ -20,10 +19,10 @@ func NewRouters(r *gin.Engine) *gin.Engine {
 
 	login := adminController.NewLogin()
 	nav := adminController.NewNav()
-
 	admin := r.Group("/admin")
 	{
-		admin.StaticFile("/swagger", "./http/admin/swagger/swagger.json")
+		admin.Use(adminMiddleware.Logger())
+		admin.Use(middleware.Cors())
 		admin.GET("/login/index", login.Get)
 		admin.PUT("/login/index", login.Put)
 
