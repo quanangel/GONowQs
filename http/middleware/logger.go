@@ -11,12 +11,12 @@ import (
 )
 
 // Logger is log function
-func Logger() gin.HandlerFunc {
+func Logger(pathName string) gin.HandlerFunc {
 	logPath := config.GetLogPath()
 	return func(c *gin.Context) {
 
 		now := time.Now()
-		logDir := logPath + config.PathSeparator + now.Format("200601") + config.PathSeparator + "admin"
+		logDir := logPath + config.PathSeparator + now.Format("200601") + config.PathSeparator + pathName
 		os.Mkdir(logDir, 0666)
 
 		logName := logDir + config.PathSeparator + strconv.Itoa(now.Day()) + ".log"
