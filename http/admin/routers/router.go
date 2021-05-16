@@ -2,7 +2,6 @@ package routers
 
 import (
 	adminController "nowqs/frame/http/admin/controller"
-	adminMiddleware "nowqs/frame/http/admin/middleware"
 	"nowqs/frame/http/middleware"
 
 	"github.com/gin-gonic/gin"
@@ -21,7 +20,7 @@ func NewRouters(r *gin.Engine) *gin.Engine {
 	nav := adminController.NewNav()
 	admin := r.Group("/admin")
 	{
-		admin.Use(adminMiddleware.Logger())
+		admin.Use(middleware.Logger("admin"))
 		admin.Use(middleware.Cors())
 		admin.GET("/login/index", login.Get)
 		admin.PUT("/login/index", login.Put)
