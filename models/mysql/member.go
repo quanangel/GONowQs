@@ -45,14 +45,14 @@ func (m *Member) Add(username string, nickname string, password string) int64 {
 	return 0
 }
 
-// GetAll is get all membmer message
+// GetAll is get all member message
 func (m *Member) GetAll() (users *[]Member) {
 	db := GetDb()
 	db.Find(users)
 	return users
 }
 
-// GetList is get all membmer message
+// GetList is get all member message
 func (m *Member) GetList(search map[string]string, page int, limit int) (users *[]Member) {
 	db := GetDb()
 	for key := range search {
