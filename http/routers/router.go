@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"nowqs/frame/config"
 	admin "nowqs/frame/http/admin/routers"
+	blog "nowqs/frame/http/blog/routers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,6 +20,7 @@ func NewRouter(r *gin.Engine) *gin.Engine {
 
 	// admin routers
 	r = admin.NewRouters(r)
+	r = blog.NewRouters(r)
 
 	// swagger router group
 	swagger := r.Group("/swagger")
