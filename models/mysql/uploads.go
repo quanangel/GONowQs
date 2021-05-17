@@ -6,6 +6,8 @@ import "time"
 type Uploads struct {
 	// id
 	ID int64 `gorm:"column:id;type:bigint(20) auto_increment;primaryKey;comment:id"`
+	// ClassifyName
+	ClassifyName `gorm:"column:classify_name;type:varchar(20);not null;index:classify_name;comment:classify name"`
 	// file name
 	FileName string `gorm:"column:file_name;type:varchar(255);not null;comment:file name"`
 	// file type
@@ -28,7 +30,8 @@ func NewImages() Uploads {
 }
 
 // Add is add action function
-func (m *Uploads) Add(fileName string, fileType string, fileAdd string, fileMd5 string, uploadUserID int64, status int8) int64 {
+func (m *Uploads) Add(classifyName string, fileName string, fileType string, fileAdd string, fileMd5 string, uploadUserID int64, status int8) int64 {
+	m.ClassifyName = classifyName
 	m.FileName = fileName
 	m.FileType = fileType
 	m.FileAdd = fileAdd
