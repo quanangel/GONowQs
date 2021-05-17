@@ -7,7 +7,7 @@ type Uploads struct {
 	// id
 	ID int64 `gorm:"column:id;type:bigint(20) auto_increment;primaryKey;comment:id"`
 	// ClassifyName
-	ClassifyName `gorm:"column:classify_name;type:varchar(20);not null;index:classify_name;comment:classify name"`
+	ClassifyName string `gorm:"column:classify_name;type:varchar(20);not null;index:classify_name;comment:classify name"`
 	// file name
 	FileName string `gorm:"column:file_name;type:varchar(255);not null;comment:file name"`
 	// file type
