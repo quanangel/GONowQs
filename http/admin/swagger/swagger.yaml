@@ -1,16 +1,5 @@
 definitions:
-  controller._returnError:
-    properties:
-      code:
-        description: error code
-        example: 1
-        type: integer
-      msg:
-        description: message
-        example: error
-        type: string
-    type: object
-  controller._returnLoginGet:
+  controller._returnBlogClassifyGet:
     properties:
       code:
         description: error code
@@ -18,42 +7,24 @@ definitions:
         type: integer
       data:
         properties:
-          last_ip:
-            description: last ip
-            example: 127.0.0.1
-            type: string
-          last_time:
-            description: last time
-            example: "1234567890"
-            type: string
-          nickname:
-            description: nick name
-            example: nickname
-            type: string
-          register_time:
-            description: register time
-            example: "1234567890"
-            type: string
-          username:
-            description: user name
-            example: username
-            type: string
+          data:
+            description: data
+            items:
+              $ref: '#/definitions/controller.BlogClassify'
+            type: array
+          limit:
+            description: limit
+            example: 20
+            type: integer
+          page:
+            description: page
+            example: 1
+            type: integer
+          total:
+            description: total
+            example: 100
+            type: integer
         type: object
-      msg:
-        description: message
-        example: success
-        type: string
-    type: object
-  controller._returnLoginPut:
-    properties:
-      code:
-        description: error code
-        example: 0
-        type: integer
-      data:
-        description: token
-        example: token
-        type: string
       msg:
         description: message
         example: success
@@ -115,6 +86,8 @@ definitions:
         example: success
         type: string
     type: object
+  controller.BlogClassify:
+    type: object
   models.AdminNav:
     properties:
       addTime:
@@ -130,13 +103,133 @@ definitions:
         description: pid
         type: integer
       status:
-        description: 'status: 1normal、2disable'
+        description: Status  1normal、2disable
         type: integer
       updateTime:
         description: udpate time
         type: integer
       url:
         description: url
+        type: string
+    type: object
+  nowqs_frame_http_admin_controller._returnError:
+    properties:
+      code:
+        description: error code
+        example: 1
+        type: integer
+      msg:
+        description: message
+        example: error
+        type: string
+    type: object
+  nowqs_frame_http_admin_controller._returnLoginGet:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        properties:
+          last_ip:
+            description: last ip
+            example: 127.0.0.1
+            type: string
+          last_time:
+            description: last time
+            example: "1234567890"
+            type: string
+          nickname:
+            description: nick name
+            example: nickname
+            type: string
+          register_time:
+            description: register time
+            example: "1234567890"
+            type: string
+          username:
+            description: user name
+            example: username
+            type: string
+        type: object
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  nowqs_frame_http_admin_controller._returnLoginPut:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        description: token
+        example: token
+        type: string
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  nowqs_frame_http_blog_v1_controller._returnError:
+    properties:
+      code:
+        description: error code
+        example: 1
+        type: integer
+      msg:
+        description: message
+        example: error
+        type: string
+    type: object
+  nowqs_frame_http_blog_v1_controller._returnLoginGet:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        properties:
+          last_ip:
+            description: last ip
+            example: 127.0.0.1
+            type: string
+          last_time:
+            description: last time
+            example: "1234567890"
+            type: string
+          nickname:
+            description: nick name
+            example: nickname
+            type: string
+          register_time:
+            description: register time
+            example: "1234567890"
+            type: string
+          username:
+            description: user name
+            example: username
+            type: string
+        type: object
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  nowqs_frame_http_blog_v1_controller._returnLoginPut:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        description: token
+        example: token
+        type: string
+      msg:
+        description: message
+        example: success
         type: string
     type: object
 info:
@@ -165,11 +258,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controller._returnLoginGet'
+            $ref: '#/definitions/nowqs_frame_http_admin_controller._returnLoginGet'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/controller._returnError'
+            $ref: '#/definitions/nowqs_frame_http_admin_controller._returnError'
       summary: Login
       tags:
       - Login
@@ -199,15 +292,42 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/controller._returnLoginPut'
+            $ref: '#/definitions/nowqs_frame_http_admin_controller._returnLoginPut'
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/controller._returnError'
+            $ref: '#/definitions/nowqs_frame_http_admin_controller._returnError'
       summary: Login
       tags:
       - Login
   /admin/nav/index:
+    delete:
+      description: admin nav
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/nowqs_frame_http_admin_controller._returnError'
+      summary: Nav
+      tags:
+      - Nav
     get:
       description: admin nav
       parameters:
@@ -248,7 +368,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/controller._returnError'
+            $ref: '#/definitions/nowqs_frame_http_admin_controller._returnError'
       summary: Nav
       tags:
       - Nav
@@ -288,7 +408,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/controller._returnError'
+            $ref: '#/definitions/nowqs_frame_http_admin_controller._returnError'
       summary: Nav
       tags:
       - Nav
@@ -335,4 +455,109 @@ paths:
       summary: Nav
       tags:
       - Nav
+  /blog/v1/blog_classify:
+    get:
+      description: BlogClassify
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        type: string
+      - description: Classify
+        in: query
+        name: classify
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Order
+        in: query
+        name: order
+        type: string
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: 'Search: type is only the search is id, type is list the search
+          is id/name/url'
+        in: query
+        name: search
+        type: string
+      - description: 'Type: my/list/only'
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnBlogClassifyGet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/nowqs_frame_http_blog_v1_controller._returnError'
+      summary: BlogClassify
+      tags:
+      - BlogClassify
+  /blog/v1/login:
+    get:
+      description: Login
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nowqs_frame_http_blog_v1_controller._returnLoginGet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/nowqs_frame_http_blog_v1_controller._returnError'
+      summary: Login
+      tags:
+      - Login
+    put:
+      description: Login
+      parameters:
+      - in: query
+        name: cpatcha
+        type: string
+      - in: query
+        name: cpatcha_md5
+        type: string
+      - in: query
+        name: last_ip
+        type: string
+      - in: query
+        name: password
+        required: true
+        type: string
+      - in: query
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/nowqs_frame_http_blog_v1_controller._returnLoginPut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/nowqs_frame_http_blog_v1_controller._returnError'
+      summary: Login
+      tags:
+      - Login
 swagger: "2.0"

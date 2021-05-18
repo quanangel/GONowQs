@@ -54,13 +54,13 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller._returnLoginGet"
+                            "$ref": "#/definitions/nowqs_frame_http_admin_controller._returnLoginGet"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/controller._returnError"
+                            "$ref": "#/definitions/nowqs_frame_http_admin_controller._returnError"
                         }
                     }
                 }
@@ -107,13 +107,13 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/controller._returnLoginPut"
+                            "$ref": "#/definitions/nowqs_frame_http_admin_controller._returnLoginPut"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/controller._returnError"
+                            "$ref": "#/definitions/nowqs_frame_http_admin_controller._returnError"
                         }
                     }
                 }
@@ -179,7 +179,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/controller._returnError"
+                            "$ref": "#/definitions/nowqs_frame_http_admin_controller._returnError"
                         }
                     }
                 }
@@ -302,7 +302,206 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/controller._returnError"
+                            "$ref": "#/definitions/nowqs_frame_http_admin_controller._returnError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "admin nav",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nav"
+                ],
+                "summary": "Nav",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnSuccess"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/nowqs_frame_http_admin_controller._returnError"
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/v1/blog_classify": {
+            "get": {
+                "description": "BlogClassify",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BlogClassify"
+                ],
+                "summary": "BlogClassify",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Classify",
+                        "name": "classify",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Order",
+                        "name": "order",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search: type is only the search is id, type is list the search is id/name/url",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Type: my/list/only",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnBlogClassifyGet"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/nowqs_frame_http_blog_v1_controller._returnError"
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/v1/login": {
+            "get": {
+                "description": "Login",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Login",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nowqs_frame_http_blog_v1_controller._returnLoginGet"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/nowqs_frame_http_blog_v1_controller._returnError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Login",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Login",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cpatcha",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "cpatcha_md5",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "last_ip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "password",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/nowqs_frame_http_blog_v1_controller._returnLoginPut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/nowqs_frame_http_blog_v1_controller._returnError"
                         }
                     }
                 }
@@ -310,22 +509,10 @@ var doc = `{
         }
     },
     "definitions": {
-        "controller._returnError": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "error code",
-                    "type": "integer",
-                    "example": 1
-                },
-                "msg": {
-                    "description": "message",
-                    "type": "string",
-                    "example": "error"
-                }
-            }
+        "controller.BlogClassify": {
+            "type": "object"
         },
-        "controller._returnLoginGet": {
+        "controller._returnBlogClassifyGet": {
             "type": "object",
             "properties": {
                 "code": {
@@ -336,52 +523,29 @@ var doc = `{
                 "data": {
                     "type": "object",
                     "properties": {
-                        "last_ip": {
-                            "description": "last ip",
-                            "type": "string",
-                            "example": "127.0.0.1"
+                        "data": {
+                            "description": "data",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/controller.BlogClassify"
+                            }
                         },
-                        "last_time": {
-                            "description": "last time",
-                            "type": "string",
-                            "example": "1234567890"
+                        "limit": {
+                            "description": "limit",
+                            "type": "integer",
+                            "example": 20
                         },
-                        "nickname": {
-                            "description": "nick name",
-                            "type": "string",
-                            "example": "nickname"
+                        "page": {
+                            "description": "page",
+                            "type": "integer",
+                            "example": 1
                         },
-                        "register_time": {
-                            "description": "register time",
-                            "type": "string",
-                            "example": "1234567890"
-                        },
-                        "username": {
-                            "description": "user name",
-                            "type": "string",
-                            "example": "username"
+                        "total": {
+                            "description": "total",
+                            "type": "integer",
+                            "example": 100
                         }
                     }
-                },
-                "msg": {
-                    "description": "message",
-                    "type": "string",
-                    "example": "success"
-                }
-            }
-        },
-        "controller._returnLoginPut": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "error code",
-                    "type": "integer",
-                    "example": 0
-                },
-                "data": {
-                    "description": "token",
-                    "type": "string",
-                    "example": "token"
                 },
                 "msg": {
                     "description": "message",
@@ -486,7 +650,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "status": {
-                    "description": "status: 1normal、2disable",
+                    "description": "Status  1normal、2disable",
                     "type": "integer"
                 },
                 "updateTime": {
@@ -496,6 +660,166 @@ var doc = `{
                 "url": {
                     "description": "url",
                     "type": "string"
+                }
+            }
+        },
+        "nowqs_frame_http_admin_controller._returnError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 1
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "error"
+                }
+            }
+        },
+        "nowqs_frame_http_admin_controller._returnLoginGet": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "last_ip": {
+                            "description": "last ip",
+                            "type": "string",
+                            "example": "127.0.0.1"
+                        },
+                        "last_time": {
+                            "description": "last time",
+                            "type": "string",
+                            "example": "1234567890"
+                        },
+                        "nickname": {
+                            "description": "nick name",
+                            "type": "string",
+                            "example": "nickname"
+                        },
+                        "register_time": {
+                            "description": "register time",
+                            "type": "string",
+                            "example": "1234567890"
+                        },
+                        "username": {
+                            "description": "user name",
+                            "type": "string",
+                            "example": "username"
+                        }
+                    }
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "nowqs_frame_http_admin_controller._returnLoginPut": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "description": "token",
+                    "type": "string",
+                    "example": "token"
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "nowqs_frame_http_blog_v1_controller._returnError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 1
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "error"
+                }
+            }
+        },
+        "nowqs_frame_http_blog_v1_controller._returnLoginGet": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "last_ip": {
+                            "description": "last ip",
+                            "type": "string",
+                            "example": "127.0.0.1"
+                        },
+                        "last_time": {
+                            "description": "last time",
+                            "type": "string",
+                            "example": "1234567890"
+                        },
+                        "nickname": {
+                            "description": "nick name",
+                            "type": "string",
+                            "example": "nickname"
+                        },
+                        "register_time": {
+                            "description": "register time",
+                            "type": "string",
+                            "example": "1234567890"
+                        },
+                        "username": {
+                            "description": "user name",
+                            "type": "string",
+                            "example": "username"
+                        }
+                    }
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "nowqs_frame_http_blog_v1_controller._returnLoginPut": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "description": "token",
+                    "type": "string",
+                    "example": "token"
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "success"
                 }
             }
         }
