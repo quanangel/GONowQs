@@ -1,7 +1,5 @@
 package controller
 
-import "nowqs/frame/http/admin/models"
-
 type _returnSuccess struct {
 	Code int    `json:"code" example:"0"`      // error code
 	Msg  string `json:"msg" example:"success"` // message
@@ -34,17 +32,12 @@ type _returnLoginGet struct {
 	}
 }
 
-type _returnNavGetList struct {
+type _returnBlogClassifyGet struct {
 	_returnSuccess
-	// data
 	Data struct {
-		_returnPageLimit
-		Data *[]models.AdminNav
+		Total int64          `json:"total" example:"100"` // total
+		Page  int            `json:"page" example:"1"`    // page
+		Limit int            `json:"limit" example:"20"`  // limit
+		Data  []BlogClassify `json:"data" example:""`     //data
 	}
-}
-
-type _returnNavGetOnly struct {
-	_returnSuccess
-	// data
-	Data *models.AdminNav
 }

@@ -8,7 +8,7 @@ import (
 	"math/rand"
 	"net/http"
 	"nowqs/frame/config"
-	models "nowqs/frame/http/admin/models"
+	models "nowqs/frame/http/blog/models"
 	"nowqs/frame/language"
 	redis "nowqs/frame/models/redis"
 	"reflect"
@@ -82,7 +82,7 @@ func userAuth(token string) int64 {
 func tokenSave(userID int64, token string) error {
 	var err error = nil
 	if !config.AppConfig.Redis.Status {
-		modelMemberToken := models.NewMemberToken()
+		modelMemberToken := models.NewUsersToken()
 		result := modelMemberToken.Add(userID, token)
 		if !result {
 			err = errors.New(errorMsg(5))
@@ -98,7 +98,7 @@ func tokenSave(userID int64, token string) error {
 func tokenGet(userID int64) string {
 	var token string = ""
 	if !config.AppConfig.Redis.Status {
-		modelMemberToken := models.NewMemberToken()
+		modelMemberToken := models.NewUsersToken()
 		token = modelMemberToken.GetTokenByID(userID)
 	} else {
 		token = redis.GetLoginToken(userID)
@@ -120,21 +120,4 @@ func jsonHandle(c *gin.Context, data map[string]interface{}) {
 		data["msg"] = errorMsg(int(errorCode))
 	}
 	c.JSON(code, data)
-}
-
-// checkRuleByUser is chekc user is it hava permission
-func checkRuleByUser(c *gin.Context) bool {
-
-	userID := userAuth(c.GetHeader("Auth-Token"))
-	if userID == 0 {
-		return false
-	}
-
-	urlPathRune := []rune(c.Request.URL.Path)
-	urlPath := string(urlPathRune[1:])
-	auth := models.NewAuth()
-
-	condition := c.Request.Method
-
-	return auth.CheckUser(userID, urlPath, condition)
 }

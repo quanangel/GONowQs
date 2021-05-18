@@ -19,7 +19,7 @@ type blogClassifyValidate struct {
 	// Search: type is only the search is id, type is list the search is id/name/url
 	Search string `form:"search" json:"search" xml:"search" binding:"required_if=Type only"`
 	// Classify
-	Classify int64 `form"classify" json:"classify" xml:"classify" binding:"-"`
+	Classify int64 `form:"classify" json:"classify" xml:"classify" binding:"-"`
 	// Page
 	Page int `form:"page" json:"page" xml:"page" binding:"-"`
 	// Limit
@@ -28,6 +28,16 @@ type blogClassifyValidate struct {
 	Order string `form:"order" json:"order" xml:"order" binding:"-"`
 }
 
+// @Summary BlogClassify
+// @Tags BlogClassify
+// @Description BlogClassify
+// @Produce json
+// @Param Auth-Token header string false "Auth-Token"
+// @Param object query blogClassifyValidate false "get message"
+// @Success 200 {object} _returnBlogClassifyGet
+// @Failure 400 {object} _returnError
+// @Router /blog/v1/blog_classify [get]
+// Get is get user message
 func (a *BlogClassify) Get(c *gin.Context) {
 	returnData := gin.H{
 		"code": -1,
@@ -64,8 +74,15 @@ func (a *BlogClassify) Get(c *gin.Context) {
 			search["id"] = validate.Search
 			search["name"] = validate.Search
 		}
-		search["user_id"] = 
+		search["user_id"] = userID
 		total, result := modelBlog.GetList(search, validate.Page, validate.Limit, "")
+		returnData["code"] = 0
+		returnData["data"] = gin.H{
+			"total": total,
+			"page":  validate.Page,
+			"limit": validate.Limit,
+			"data":  result,
+		}
 
 	case "list":
 
