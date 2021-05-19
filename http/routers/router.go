@@ -26,8 +26,10 @@ func NewRouter(r *gin.Engine) *gin.Engine {
 	swagger := r.Group("/swagger")
 	{
 		adminPath := config.GetHttpPath() + config.PathSeparator + "admin"
-		swagger.StaticFS("/admin", http.Dir(config.GetHttpPath()+config.PathSeparator+"assets"+config.PathSeparator+"swagger-ui"))
+		blogV1Path := config.GetHttpPath() + config.PathSeparator + "blog" + config.PathSeparator + "v1"
+		swagger.StaticFS("/ui", http.Dir(config.GetHttpPath()+config.PathSeparator+"assets"+config.PathSeparator+"swagger-ui"))
 		swagger.StaticFile("/admin.json", adminPath+config.PathSeparator+"swagger"+config.PathSeparator+"swagger.json")
+		swagger.StaticFile("/blog/v1.json", blogV1Path+config.PathSeparator+"swagger"+config.PathSeparator+"swagger.json")
 	}
 	return r
 }

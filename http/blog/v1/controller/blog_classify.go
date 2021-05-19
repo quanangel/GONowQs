@@ -2,6 +2,7 @@ package controller
 
 import (
 	"nowqs/frame/http/blog/models"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,7 +16,7 @@ func NewBlogClassify() BlogClassify {
 // blogClassifyValidate is get validate struct
 type blogClassifyValidate struct {
 	// Type: my/list/only
-	Type string `form:"type" json:"type" xml:"type" binding:"required,oneof=my list only"`
+	Type string `form:"type" json:"type" xml:"type" binding:"required,oneof=my list only" default:"list"`
 	// Search: type is only the search is id, type is list the search is id/name/url
 	Search string `form:"search" json:"search" xml:"search" binding:"required_if=Type only"`
 	// Classify
@@ -25,7 +26,7 @@ type blogClassifyValidate struct {
 	// Limit
 	Limit int `form:"limit" json:"limit" xml:"limit" binding:"-"`
 	// Order
-	Order string `form:"order" json:"order" xml:"order" binding:"-"`
+	Order string `form:"order" json:"order" xml:"order" binding:"-" default:"order_id asc, id desc"`
 }
 
 // @Summary BlogClassify
@@ -34,7 +35,8 @@ type blogClassifyValidate struct {
 // @Produce json
 // @Param Auth-Token header string false "Auth-Token"
 // @Param object query blogClassifyValidate false "get message"
-// @Success 200 {object} _returnBlogClassifyGet
+// @Success 200-1 {object} _returnBlogClassifyGetList
+// @Success 200-2 {object} _returnBlogClassifyGetOnly
 // @Failure 400 {object} _returnError
 // @Router /blog/v1/blog_classify [get]
 // Get is get user message
@@ -52,7 +54,7 @@ func (a *BlogClassify) Get(c *gin.Context) {
 		jsonHandle(c, returnData)
 		return
 	}
-	modelBlog := models.NewBlog()
+	modelBlogClassify := models.NewBlogClassify()
 	search := make(map[string]interface{})
 	if validate.Page == 0 {
 		validate.Page = 1
@@ -75,7 +77,7 @@ func (a *BlogClassify) Get(c *gin.Context) {
 			search["name"] = validate.Search
 		}
 		search["user_id"] = userID
-		total, result := modelBlog.GetList(search, validate.Page, validate.Limit, "")
+		total, result := modelBlogClassify.GetList(search, validate.Page, validate.Limit, validate.Order)
 		returnData["code"] = 0
 		returnData["data"] = gin.H{
 			"total": total,
@@ -85,9 +87,25 @@ func (a *BlogClassify) Get(c *gin.Context) {
 		}
 
 	case "list":
-
+		if validate.Search != "" {
+			search["id"] = validate.Search
+			search["name"] = validate.Search
+		}
+		search["status"] = 1
+		total, result := modelBlogClassify.GetList(search, validate.Page, validate.Limit, validate.Order)
+		returnData["code"] = 0
+		returnData["data"] = gin.H{
+			"total": total,
+			"page":  validate.Page,
+			"limit": validate.Limit,
+			"data":  result,
+		}
+	case "only":
+		id, _ := strconv.ParseInt(validate.Search, 10, 64)
+		result := modelBlogClassify.GetOne(id)
+		returnData["code"] = 0
+		returnData["data"] = result
 	default:
-		returnData["code"] = 1
 		jsonHandle(c, returnData)
 		return
 	}
