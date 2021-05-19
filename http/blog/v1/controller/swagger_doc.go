@@ -48,3 +48,23 @@ type _returnBlogClassifyGetOnly struct {
 	_returnSuccess
 	Data *models.BlogClassify
 }
+
+type _returnBlogGetList struct {
+	_returnSuccess
+	Data struct {
+		Total int64 `json:"total" example:"100"` // total
+		Page  int   `json:"page" example:"1"`    // page
+		Limit int   `json:"limit" example:"20"`  // limit
+		Data  *[]models.Blog
+	}
+}
+
+type _returnBlogGetOnly struct {
+	_returnSuccess
+	Data *models.Blog
+}
+
+type _returnBlogPost struct {
+	_returnSuccess
+	Data int `json:"data" example:"1"`
+}
