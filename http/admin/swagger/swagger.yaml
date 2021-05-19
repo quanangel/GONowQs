@@ -130,7 +130,7 @@ definitions:
         description: pid
         type: integer
       status:
-        description: 'status: 1normal、2disable'
+        description: Status  1normal、2disable
         type: integer
       updateTime:
         description: udpate time
@@ -208,6 +208,33 @@ paths:
       tags:
       - Login
   /admin/nav/index:
+    delete:
+      description: admin nav
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: Nav
+      tags:
+      - Nav
     get:
       description: admin nav
       parameters:

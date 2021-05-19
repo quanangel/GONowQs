@@ -306,6 +306,46 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "admin nav",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Nav"
+                ],
+                "summary": "Nav",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnSuccess"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnError"
+                        }
+                    }
+                }
             }
         }
     },
@@ -486,7 +526,7 @@ var doc = `{
                     "type": "integer"
                 },
                 "status": {
-                    "description": "status: 1normal、2disable",
+                    "description": "Status  1normal、2disable",
                     "type": "integer"
                 },
                 "updateTime": {
