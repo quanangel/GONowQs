@@ -49,9 +49,9 @@ func (m *BlogClassify) GetList(search map[string]interface{}, page int, limit in
 			db.Where("status = ?", val)
 		default:
 			if whereOrStr == "" {
-				whereOrStr = fmt.Sprintf("( %v LIKE '%%v%'", key, val)
+				whereOrStr = fmt.Sprintf("( %v LIKE '%%%v%%'", key, val)
 			} else {
-				whereOrStr += fmt.Sprintf(" or %v LIKE '%%v%'", key, val)
+				whereOrStr += fmt.Sprintf(" or %v LIKE '%%%v%%'", key, val)
 			}
 		}
 	}
@@ -69,11 +69,14 @@ func (m *BlogClassify) GetList(search map[string]interface{}, page int, limit in
 	return total, lists
 }
 
-// GetOne is one single message where search
-func (m *BlogClassify) GetOne(id int64) *BlogClassify {
+// GetByID is one single message where search
+func (m *BlogClassify) GetByID(id int64, userID int64) *BlogClassify {
 	db := GetDb()
 	db.Where("id = ?", id)
 	db.First(m)
+	if m.Status != 1 && m.UserID != userID {
+		return nil
+	}
 	return m
 }
 

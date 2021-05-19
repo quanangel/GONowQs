@@ -57,9 +57,9 @@ func (m *Blog) GetList(search map[string]interface{}, page int, limit int, order
 			db.Where("is_push = ?", search[key])
 		default:
 			if whereOrStr == "" {
-				whereOrStr = fmt.Sprintf("( %v LIKE '%%v%'", key, search[key])
+				whereOrStr = fmt.Sprintf("( %v LIKE '%%%v%%'", key, search[key])
 			} else {
-				whereOrStr += fmt.Sprintf(" or %v LIKE '%%v%'", key, search[key])
+				whereOrStr += fmt.Sprintf(" or %v LIKE '%%%v%%'", key, search[key])
 			}
 		}
 	}
@@ -78,16 +78,19 @@ func (m *Blog) GetList(search map[string]interface{}, page int, limit int, order
 }
 
 // GetByID is get message by id
-func (m *Blog) GetByID(ID int) *Blog {
+func (m *Blog) GetByID(ID int64, userID int64) *Blog {
 	db := GetDb()
 	db.Where("id = ?", ID).First(m)
+	if m.Status != 1 && m.UserID != userID {
+		return nil
+	}
 	return m
 }
 
 // Edit is edit message by search
 func (m *Blog) Edit(search map[string]interface{}, data map[string]interface{}) bool {
 	db := GetDb()
-	db.Where(search).Updates(m)
+	db.Model(m).Where(search).Updates(data)
 	return db.RowsAffected > 0
 }
 
