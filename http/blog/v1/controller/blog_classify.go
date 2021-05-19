@@ -15,9 +15,9 @@ func NewBlogClassify() BlogClassify {
 
 // blogClassifyGetValidate is get validate struct
 type blogClassifyGetValidate struct {
-	// Type: my/list/only
+	// Type my/list/only
 	Type string `form:"type" json:"type" xml:"type" binding:"required,oneof=my list only" default:"list"`
-	// Search: type is only the search is id, type is list the search is id/name/url
+	// Search type is only the search is id, type is list the search is id/name
 	Search string `form:"search" json:"search" xml:"search" binding:"required_if=Type only"`
 	// Classify
 	Classify int64 `form:"classify" json:"classify" xml:"classify" binding:"-"`
@@ -35,10 +35,10 @@ type blogClassifyPostValidate struct {
 	Name string `form:"name" json:"name" xml:"name" binding:"required"`
 	// PID
 	PID int64 `form:"pid" json:"pid" xml:"pid" binding:"required"`
-	// Type
-	Type int8 `form:"type" json:"type" xml:"type" binding:"required" example:"type:1markdown/2quill" default:"1"`
-	// Status
-	Status int8 `form:"status" json:"status" xml:"status" binding:"required" example:"status:0deleted/1public/2privarte/3draft" default:"1"`
+	// Type 1markdown/2quill
+	Type int8 `form:"type" json:"type" xml:"type" binding:"required" default:"1"`
+	// Status 1public/2privarte/3draft
+	Status int8 `form:"status" json:"status" xml:"status" binding:"required" default:"1"`
 	// OrderID
 	OrderID int64 `form:"order_id" json:"order_id" xml:"order_id" binding:"required" default:"0"`
 }
@@ -129,9 +129,13 @@ func (a *BlogClassify) Get(c *gin.Context) {
 		}
 	case "only":
 		id, _ := strconv.ParseInt(validate.Search, 10, 64)
-		result := modelBlogClassify.GetOne(id)
-		returnData["code"] = 0
-		returnData["data"] = result
+		result := modelBlogClassify.GetByID(id, userID)
+		if result == nil {
+			returnData["code"] = 6
+		} else {
+			returnData["code"] = 0
+			returnData["data"] = result
+		}
 	default:
 		jsonHandle(c, returnData)
 		return
@@ -207,6 +211,7 @@ func (a *BlogClassify) Put(c *gin.Context) {
 	modelBlogClassify := models.NewBlogClassify()
 	search := make(map[string]interface{})
 	search["id"] = validate.ID
+	search["user_id"] = userID
 
 	editData := make(map[string]interface{})
 	editData["name"] = validate.Name
@@ -235,6 +240,12 @@ func (a *BlogClassify) Delete(c *gin.Context) {
 	returnData := gin.H{
 		"code": -1,
 	}
+	userID := userAuth(c.GetHeader("Auth-Token"))
+	if userID == 0 {
+		returnData["code"] = 2
+		jsonHandle(c, returnData)
+		return
+	}
 	var validate blogClassifyDeleteValidate
 	if err := c.Bind(&validate); err != nil {
 		returnData["code"] = 10000
@@ -246,6 +257,7 @@ func (a *BlogClassify) Delete(c *gin.Context) {
 	modelBlogClassify := models.NewBlogClassify()
 	search := make(map[string]interface{})
 	search["id"] = validate.ID
+	search["user_id"] = userID
 	result := modelBlogClassify.SoftDelete(search)
 	if result != nil {
 		returnData["code"] = 1
