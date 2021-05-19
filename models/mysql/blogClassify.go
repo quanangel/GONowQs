@@ -114,7 +114,7 @@ func (m *BlogClassify) SoftDelete(search map[string]interface{}) error {
 // Edit is edit message function
 func (m *BlogClassify) Edit(search map[string]interface{}, data map[string]interface{}) bool {
 	db := GetDb()
-	result := db.Where(search).Updates(m)
+	result := db.Model(m).Where(search).Updates(data)
 	return result.RowsAffected > 0
 }
 

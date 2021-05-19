@@ -82,8 +82,8 @@ func userAuth(token string) int64 {
 func tokenSave(userID int64, token string) error {
 	var err error = nil
 	if !config.AppConfig.Redis.Status {
-		modelMemberToken := models.NewUsersToken()
-		result := modelMemberToken.Add(userID, token)
+		modelUsersToken := models.NewUsersToken()
+		result := modelUsersToken.Add(userID, token)
 		if !result {
 			err = errors.New(errorMsg(5))
 		}
@@ -98,8 +98,8 @@ func tokenSave(userID int64, token string) error {
 func tokenGet(userID int64) string {
 	var token string = ""
 	if !config.AppConfig.Redis.Status {
-		modelMemberToken := models.NewUsersToken()
-		token = modelMemberToken.GetTokenByID(userID)
+		modelUsersToken := models.NewUsersToken()
+		token = modelUsersToken.GetTokenByID(userID)
 	} else {
 		token = redis.GetLoginToken(userID)
 	}

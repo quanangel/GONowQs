@@ -13,8 +13,8 @@ func NewBlogClassify() BlogClassify {
 	return BlogClassify{}
 }
 
-// blogClassifyValidate is get validate struct
-type blogClassifyValidate struct {
+// blogClassifyGetValidate is get validate struct
+type blogClassifyGetValidate struct {
 	// Type: my/list/only
 	Type string `form:"type" json:"type" xml:"type" binding:"required,oneof=my list only" default:"list"`
 	// Search: type is only the search is id, type is list the search is id/name/url
@@ -29,17 +29,44 @@ type blogClassifyValidate struct {
 	Order string `form:"order" json:"order" xml:"order" binding:"-" default:"order_id asc, id desc"`
 }
 
+// blogClassifyPostValidate is post validate struct
+type blogClassifyPostValidate struct {
+	// Name
+	Name string `form:"name" json:"name" xml:"name" binding:"required"`
+	// PID
+	PID int64 `form:"pid" json:"pid" xml:"pid" binding:"required"`
+	// Type
+	Type int8 `form:"type" json:"type" xml:"type" binding:"required" example:"type:1markdown/2quill" default:"1"`
+	// Status
+	Status int8 `form:"status" json:"status" xml:"status" binding:"required" example:"status:0deleted/1public/2privarte/3draft" default:"1"`
+	// OrderID
+	OrderID int64 `form:"order_id" json:"order_id" xml:"order_id" binding:"required" default:"0"`
+}
+
+// blogClassifyPutValidate is put validate struct
+type blogClassifyPutValidate struct {
+	// ID
+	ID int64 `form:"id" json:"id" xml:"id" binding:"required"`
+	blogClassifyPostValidate
+}
+
+// blogClassifyDeleteValidate is delete validate struct
+type blogClassifyDeleteValidate struct {
+	// ID
+	ID int64 `form:"id" json:"id" xml:"id" binding:"required"`
+}
+
 // @Summary BlogClassify
 // @Tags BlogClassify
 // @Description BlogClassify
 // @Produce json
 // @Param Auth-Token header string false "Auth-Token"
-// @Param object query blogClassifyValidate false "get message"
+// @Param object query blogClassifyGetValidate false "get message"
 // @Success 200-1 {object} _returnBlogClassifyGetList
 // @Success 200-2 {object} _returnBlogClassifyGetOnly
 // @Failure 400 {object} _returnError
 // @Router /blog/v1/blog_classify [get]
-// Get is get user message
+// Get is get blog classify message
 func (a *BlogClassify) Get(c *gin.Context) {
 	returnData := gin.H{
 		"code": -1,
@@ -47,7 +74,7 @@ func (a *BlogClassify) Get(c *gin.Context) {
 	authToken := c.GetHeader("Auth-Token")
 	userID := userAuth(authToken)
 
-	var validate blogClassifyValidate
+	var validate blogClassifyGetValidate
 	if err := c.Bind(&validate); err != nil {
 		returnData["code"] = 10000
 		returnData["msg"] = err.Error()
@@ -108,6 +135,123 @@ func (a *BlogClassify) Get(c *gin.Context) {
 	default:
 		jsonHandle(c, returnData)
 		return
+	}
+	jsonHandle(c, returnData)
+}
+
+// @Summary BlogClassify
+// @Tags BlogClassify
+// @Description BlogClassify
+// @Produce json
+// @Param Auth-Token header string true "Auth-Token"
+// @Param object query blogClassifyPostValidate false "post message"
+// @Success 200 {object} _returnSuccess
+// @Failure 400 {object} _returnError
+// @Router /blog/v1/blog_classify [post]
+// Post is add blog classify message
+func (a *BlogClassify) Post(c *gin.Context) {
+	returnData := gin.H{
+		"code": -1,
+	}
+	userID := userAuth(c.GetHeader("Auth-Token"))
+	if userID == 0 {
+		returnData["code"] = 2
+		jsonHandle(c, returnData)
+		return
+	}
+	var validate blogClassifyPostValidate
+	if err := c.Bind(&validate); err != nil {
+		returnData["code"] = 10000
+		returnData["msg"] = err.Error()
+		jsonHandle(c, returnData)
+		return
+	}
+	modelBlogClassify := models.NewBlogClassify()
+	result := modelBlogClassify.Add(validate.PID, userID, validate.Name, validate.Type, validate.Status, validate.OrderID)
+	if result == 0 {
+		returnData["code"] = 1
+	} else {
+		returnData["code"] = 0
+	}
+
+	jsonHandle(c, returnData)
+}
+
+// @Summary BlogClassify
+// @Tags BlogClassify
+// @Description BlogClassify
+// @Produce json
+// @Param Auth-Token header string true "Auth-Token"
+// @Param object query blogClassifyPutValidate false "put message"
+// @Success 200 {object} _returnSuccess
+// @Failure 400 {object} _returnError
+// @Router /blog/v1/blog_classify [put]
+// Put is edit blog classify message
+func (a *BlogClassify) Put(c *gin.Context) {
+	returnData := gin.H{
+		"code": -1,
+	}
+	userID := userAuth(c.GetHeader("Auth-Token"))
+	if userID == 0 {
+		returnData["code"] = 2
+		jsonHandle(c, returnData)
+		return
+	}
+	var validate blogClassifyPutValidate
+	if err := c.Bind(&validate); err != nil {
+		returnData["code"] = 10000
+		returnData["msg"] = err.Error()
+		jsonHandle(c, returnData)
+		return
+	}
+	modelBlogClassify := models.NewBlogClassify()
+	search := make(map[string]interface{})
+	search["id"] = validate.ID
+
+	editData := make(map[string]interface{})
+	editData["name"] = validate.Name
+	editData["pid"] = validate.PID
+
+	result := modelBlogClassify.Edit(search, editData)
+	if result {
+		returnData["code"] = 0
+	} else {
+		returnData["code"] = 1
+	}
+	jsonHandle(c, returnData)
+}
+
+// @Summary BlogClassify
+// @Tags BlogClassify
+// @Description BlogClassify
+// @Produce json
+// @Param Auth-Token header string true "Auth-Token"
+// @Param object query blogClassifyDeleteValidate false "delete message"
+// @Success 200 {object} _returnSuccess
+// @Failure 400 {object} _returnError
+// @Router /blog/v1/blog_classify [delete]
+// Delete is delete blog classify message
+func (a *BlogClassify) Delete(c *gin.Context) {
+	returnData := gin.H{
+		"code": -1,
+	}
+	var validate blogClassifyDeleteValidate
+	if err := c.Bind(&validate); err != nil {
+		returnData["code"] = 10000
+		returnData["msg"] = err.Error()
+		jsonHandle(c, returnData)
+		return
+	}
+
+	modelBlogClassify := models.NewBlogClassify()
+	search := make(map[string]interface{})
+	search["id"] = validate.ID
+	result := modelBlogClassify.SoftDelete(search)
+	if result != nil {
+		returnData["code"] = 1
+		returnData["msg"] = result.Error()
+	} else {
+		returnData["code"] = 0
 	}
 	jsonHandle(c, returnData)
 }
