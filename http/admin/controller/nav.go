@@ -225,8 +225,8 @@ func (a *Nav) Put(c *gin.Context) {
 // @Tags Nav
 // @Description admin nav
 // @Produce json
-// @Param Auth-Token header string true 'Auth-Token'
-// @Param object query navDeleteValidate false 'delete message'
+// @Param Auth-Token header string true "Auth-Token"
+// @Param object query navDeleteValidate false "delete message"
 // @Success 200 {object} _returnSuccess
 // @Failure 400 {object} _returnError
 // @Router /admin/nav/index [delete]
