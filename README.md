@@ -8,7 +8,10 @@
 # github.com/swaggo/swag
 
 # admin api document
-# swag init -g http/admin/controller/base.go -o ./http/admin/swagger
+# swag init -g http/admin/controller/base.go --exclude http/blog -o ./http/admin/swagger
+
+# blog api document
+# swag init -g http/blog/v1/controller/base.go --exclude http/admin -o ./http/blog/v1/swagger
 
 swag init
 ```
