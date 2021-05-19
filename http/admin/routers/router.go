@@ -28,6 +28,7 @@ func NewRouters(r *gin.Engine) *gin.Engine {
 		admin.GET("/nav/index", nav.Get)
 		admin.POST("/nav/index", nav.Post)
 		admin.PUT("/nav/index", nav.Put)
+		admin.DELETE("/nav/index", nav.Delete)
 	}
 
 	return r
