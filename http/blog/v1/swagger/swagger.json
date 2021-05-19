@@ -1,0 +1,978 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is Api Document",
+        "title": "NowQS Farme Blog Api",
+        "contact": {
+            "name": "Qs",
+            "email": "quanangel@outlook.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "0.0.1"
+    },
+    "paths": {
+        "/blog/v1/blog": {
+            "get": {
+                "description": "Blog",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Blog",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Classify",
+                        "name": "classify",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "order_id asc, id desc",
+                        "description": "Order",
+                        "name": "order",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search: type is only the search is id, type is list the search is id/name",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "list",
+                        "description": "Type: my/list/only",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "1": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnBlogGetList"
+                        }
+                    },
+                    "2": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnBlogGetOnly"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Blog",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Blog",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ClassifyID",
+                        "name": "classify_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Content",
+                        "name": "content",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Cover",
+                        "name": "cover",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Status 1public/2private/3draft",
+                        "name": "status",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Title",
+                        "name": "title",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Type 1markdown/2quill",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnSuccess"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Blog",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Blog",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ClassifyID",
+                        "name": "classify_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Content",
+                        "name": "content",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Cover",
+                        "name": "cover",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Status 1public/2private/3draft",
+                        "name": "status",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Title",
+                        "name": "title",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Type 1markdown/2quill",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnBlogPost"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Blog",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Blog"
+                ],
+                "summary": "Blog",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnSuccess"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnError"
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/v1/blog_classify": {
+            "get": {
+                "description": "BlogClassify",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BlogClassify"
+                ],
+                "summary": "BlogClassify",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Classify",
+                        "name": "classify",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "order_id asc, id desc",
+                        "description": "Order",
+                        "name": "order",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Search type is only the search is id, type is list the search is id/name",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "default": "list",
+                        "description": "Type my/list/only",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "1": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnBlogClassifyGetList"
+                        }
+                    },
+                    "2": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnBlogClassifyGetOnly"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "BlogClassify",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BlogClassify"
+                ],
+                "summary": "BlogClassify",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "OrderID",
+                        "name": "order_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "PID",
+                        "name": "pid",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Status 1public/2privarte/3draft",
+                        "name": "status",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Type 1markdown/2quill",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnSuccess"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "BlogClassify",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BlogClassify"
+                ],
+                "summary": "BlogClassify",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Name",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "OrderID",
+                        "name": "order_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "PID",
+                        "name": "pid",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Status 1public/2privarte/3draft",
+                        "name": "status",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Type 1markdown/2quill",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnSuccess"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "BlogClassify",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "BlogClassify"
+                ],
+                "summary": "BlogClassify",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnSuccess"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnError"
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/v1/login": {
+            "get": {
+                "description": "Login",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Login",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth-Token",
+                        "name": "Auth-Token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnLoginGet"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Login",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Login",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "cpatcha",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "cpatcha_md5",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "last_ip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "password",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnLoginPut"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "controller._returnBlogClassifyGetList": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.BlogClassify"
+                            }
+                        },
+                        "limit": {
+                            "description": "limit",
+                            "type": "integer",
+                            "example": 20
+                        },
+                        "page": {
+                            "description": "page",
+                            "type": "integer",
+                            "example": 1
+                        },
+                        "total": {
+                            "description": "total",
+                            "type": "integer",
+                            "example": 100
+                        }
+                    }
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "controller._returnBlogClassifyGetOnly": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "$ref": "#/definitions/models.BlogClassify"
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "controller._returnBlogGetList": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Blog"
+                            }
+                        },
+                        "limit": {
+                            "description": "limit",
+                            "type": "integer",
+                            "example": 20
+                        },
+                        "page": {
+                            "description": "page",
+                            "type": "integer",
+                            "example": 1
+                        },
+                        "total": {
+                            "description": "total",
+                            "type": "integer",
+                            "example": 100
+                        }
+                    }
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "controller._returnBlogGetOnly": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "$ref": "#/definitions/models.Blog"
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "controller._returnBlogPost": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "controller._returnError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 1
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "error"
+                }
+            }
+        },
+        "controller._returnLoginGet": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "type": "object",
+                    "properties": {
+                        "last_ip": {
+                            "description": "last ip",
+                            "type": "string",
+                            "example": "127.0.0.1"
+                        },
+                        "last_time": {
+                            "description": "last time",
+                            "type": "string",
+                            "example": "1234567890"
+                        },
+                        "nickname": {
+                            "description": "nick name",
+                            "type": "string",
+                            "example": "nickname"
+                        },
+                        "register_time": {
+                            "description": "register time",
+                            "type": "string",
+                            "example": "1234567890"
+                        },
+                        "username": {
+                            "description": "user name",
+                            "type": "string",
+                            "example": "username"
+                        }
+                    }
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "controller._returnLoginPut": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 0
+                },
+                "data": {
+                    "description": "token",
+                    "type": "string",
+                    "example": "token"
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "controller._returnSuccess": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "error code",
+                    "type": "integer",
+                    "example": 0
+                },
+                "msg": {
+                    "description": "message",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "models.Blog": {
+            "type": "object",
+            "properties": {
+                "addTime": {
+                    "description": "AddTime",
+                    "type": "integer"
+                },
+                "classifyID": {
+                    "description": "ClassifyID",
+                    "type": "integer"
+                },
+                "content": {
+                    "description": "Content",
+                    "type": "string"
+                },
+                "cover": {
+                    "description": "Cover",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "ID",
+                    "type": "integer"
+                },
+                "isPush": {
+                    "description": "IsPush 1yes 2no",
+                    "type": "integer"
+                },
+                "readNum": {
+                    "description": "ReadNum",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "Status 0deleted 1public 2 private 3draft",
+                    "type": "integer"
+                },
+                "title": {
+                    "description": "Title",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Type 1markdown 2quill",
+                    "type": "integer"
+                },
+                "updateTime": {
+                    "description": "UpdateTime",
+                    "type": "integer"
+                },
+                "userID": {
+                    "description": "UserID",
+                    "type": "integer"
+                }
+            }
+        },
+        "models.BlogClassify": {
+            "type": "object",
+            "properties": {
+                "addTime": {
+                    "description": "AddTime",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "ID",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "Name",
+                    "type": "string"
+                },
+                "orderID": {
+                    "description": "OrderID",
+                    "type": "integer"
+                },
+                "pid": {
+                    "description": "PID",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "Status 0deleted 1public 2 private 3draft",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "Type",
+                    "type": "integer"
+                },
+                "updateTime": {
+                    "description": "UpdateTime",
+                    "type": "integer"
+                },
+                "userID": {
+                    "description": "UserID",
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

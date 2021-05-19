@@ -1,0 +1,686 @@
+definitions:
+  controller._returnBlogClassifyGetList:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        properties:
+          data:
+            items:
+              $ref: '#/definitions/models.BlogClassify'
+            type: array
+          limit:
+            description: limit
+            example: 20
+            type: integer
+          page:
+            description: page
+            example: 1
+            type: integer
+          total:
+            description: total
+            example: 100
+            type: integer
+        type: object
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  controller._returnBlogClassifyGetOnly:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        $ref: '#/definitions/models.BlogClassify'
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  controller._returnBlogGetList:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        properties:
+          data:
+            items:
+              $ref: '#/definitions/models.Blog'
+            type: array
+          limit:
+            description: limit
+            example: 20
+            type: integer
+          page:
+            description: page
+            example: 1
+            type: integer
+          total:
+            description: total
+            example: 100
+            type: integer
+        type: object
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  controller._returnBlogGetOnly:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        $ref: '#/definitions/models.Blog'
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  controller._returnBlogPost:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        example: 1
+        type: integer
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  controller._returnError:
+    properties:
+      code:
+        description: error code
+        example: 1
+        type: integer
+      msg:
+        description: message
+        example: error
+        type: string
+    type: object
+  controller._returnLoginGet:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        properties:
+          last_ip:
+            description: last ip
+            example: 127.0.0.1
+            type: string
+          last_time:
+            description: last time
+            example: "1234567890"
+            type: string
+          nickname:
+            description: nick name
+            example: nickname
+            type: string
+          register_time:
+            description: register time
+            example: "1234567890"
+            type: string
+          username:
+            description: user name
+            example: username
+            type: string
+        type: object
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  controller._returnLoginPut:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      data:
+        description: token
+        example: token
+        type: string
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  controller._returnSuccess:
+    properties:
+      code:
+        description: error code
+        example: 0
+        type: integer
+      msg:
+        description: message
+        example: success
+        type: string
+    type: object
+  models.Blog:
+    properties:
+      addTime:
+        description: AddTime
+        type: integer
+      classifyID:
+        description: ClassifyID
+        type: integer
+      content:
+        description: Content
+        type: string
+      cover:
+        description: Cover
+        type: string
+      id:
+        description: ID
+        type: integer
+      isPush:
+        description: IsPush 1yes 2no
+        type: integer
+      readNum:
+        description: ReadNum
+        type: integer
+      status:
+        description: Status 0deleted 1public 2 private 3draft
+        type: integer
+      title:
+        description: Title
+        type: string
+      type:
+        description: Type 1markdown 2quill
+        type: integer
+      updateTime:
+        description: UpdateTime
+        type: integer
+      userID:
+        description: UserID
+        type: integer
+    type: object
+  models.BlogClassify:
+    properties:
+      addTime:
+        description: AddTime
+        type: integer
+      id:
+        description: ID
+        type: integer
+      name:
+        description: Name
+        type: string
+      orderID:
+        description: OrderID
+        type: integer
+      pid:
+        description: PID
+        type: integer
+      status:
+        description: Status 0deleted 1public 2 private 3draft
+        type: integer
+      type:
+        description: Type
+        type: integer
+      updateTime:
+        description: UpdateTime
+        type: integer
+      userID:
+        description: UserID
+        type: integer
+    type: object
+info:
+  contact:
+    email: quanangel@outlook.com
+    name: Qs
+  description: This is Api Document
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: NowQS Farme Blog Api
+  version: 0.0.1
+paths:
+  /blog/v1/blog:
+    delete:
+      description: Blog
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      - description: ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: Blog
+      tags:
+      - Blog
+    get:
+      description: Blog
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        type: string
+      - description: Classify
+        in: query
+        name: classify
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - default: order_id asc, id desc
+        description: Order
+        in: query
+        name: order
+        type: string
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: 'Search: type is only the search is id, type is list the search
+          is id/name'
+        in: query
+        name: search
+        type: string
+      - default: list
+        description: 'Type: my/list/only'
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "1":
+          description: ""
+          schema:
+            $ref: '#/definitions/controller._returnBlogGetList'
+        "2":
+          description: ""
+          schema:
+            $ref: '#/definitions/controller._returnBlogGetOnly'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: Blog
+      tags:
+      - Blog
+    post:
+      description: Blog
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      - description: ClassifyID
+        in: query
+        name: classify_id
+        required: true
+        type: integer
+      - description: Content
+        in: query
+        name: content
+        type: string
+      - description: Cover
+        in: query
+        name: cover
+        type: string
+      - default: 1
+        description: Status 1public/2private/3draft
+        in: query
+        name: status
+        required: true
+        type: integer
+      - description: Title
+        in: query
+        name: title
+        required: true
+        type: string
+      - default: 1
+        description: Type 1markdown/2quill
+        in: query
+        name: type
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnBlogPost'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: Blog
+      tags:
+      - Blog
+    put:
+      description: Blog
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      - description: ClassifyID
+        in: query
+        name: classify_id
+        required: true
+        type: integer
+      - description: Content
+        in: query
+        name: content
+        type: string
+      - description: Cover
+        in: query
+        name: cover
+        type: string
+      - description: ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      - default: 1
+        description: Status 1public/2private/3draft
+        in: query
+        name: status
+        required: true
+        type: integer
+      - description: Title
+        in: query
+        name: title
+        required: true
+        type: string
+      - default: 1
+        description: Type 1markdown/2quill
+        in: query
+        name: type
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: Blog
+      tags:
+      - Blog
+  /blog/v1/blog_classify:
+    delete:
+      description: BlogClassify
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      - description: ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: BlogClassify
+      tags:
+      - BlogClassify
+    get:
+      description: BlogClassify
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        type: string
+      - description: Classify
+        in: query
+        name: classify
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - default: order_id asc, id desc
+        description: Order
+        in: query
+        name: order
+        type: string
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Search type is only the search is id, type is list the search
+          is id/name
+        in: query
+        name: search
+        type: string
+      - default: list
+        description: Type my/list/only
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "1":
+          description: ""
+          schema:
+            $ref: '#/definitions/controller._returnBlogClassifyGetList'
+        "2":
+          description: ""
+          schema:
+            $ref: '#/definitions/controller._returnBlogClassifyGetOnly'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: BlogClassify
+      tags:
+      - BlogClassify
+    post:
+      description: BlogClassify
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      - description: Name
+        in: query
+        name: name
+        required: true
+        type: string
+      - default: 0
+        description: OrderID
+        in: query
+        name: order_id
+        required: true
+        type: integer
+      - description: PID
+        in: query
+        name: pid
+        required: true
+        type: integer
+      - default: 1
+        description: Status 1public/2privarte/3draft
+        in: query
+        name: status
+        required: true
+        type: integer
+      - default: 1
+        description: Type 1markdown/2quill
+        in: query
+        name: type
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: BlogClassify
+      tags:
+      - BlogClassify
+    put:
+      description: BlogClassify
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      - description: ID
+        in: query
+        name: id
+        required: true
+        type: integer
+      - description: Name
+        in: query
+        name: name
+        required: true
+        type: string
+      - default: 0
+        description: OrderID
+        in: query
+        name: order_id
+        required: true
+        type: integer
+      - description: PID
+        in: query
+        name: pid
+        required: true
+        type: integer
+      - default: 1
+        description: Status 1public/2privarte/3draft
+        in: query
+        name: status
+        required: true
+        type: integer
+      - default: 1
+        description: Type 1markdown/2quill
+        in: query
+        name: type
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnSuccess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: BlogClassify
+      tags:
+      - BlogClassify
+  /blog/v1/login:
+    get:
+      description: Login
+      parameters:
+      - description: Auth-Token
+        in: header
+        name: Auth-Token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnLoginGet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: Login
+      tags:
+      - Login
+    put:
+      description: Login
+      parameters:
+      - in: query
+        name: cpatcha
+        type: string
+      - in: query
+        name: cpatcha_md5
+        type: string
+      - in: query
+        name: last_ip
+        type: string
+      - in: query
+        name: password
+        required: true
+        type: string
+      - in: query
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnLoginPut'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: Login
+      tags:
+      - Login
+swagger: "2.0"
