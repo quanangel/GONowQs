@@ -1,6 +1,6 @@
 package controller
 
-import "nowqs/frame/http/admin/models"
+import "nowqs/frame/models/mysql"
 
 type _returnSuccess struct {
 	Code int    `json:"code" example:"0"`      // error code
@@ -39,12 +39,37 @@ type _returnNavGetList struct {
 	// data
 	Data struct {
 		_returnPageLimit
-		Data *[]models.AdminNav
+		Data []mysql.AdminNav
 	}
 }
 
 type _returnNavGetOnly struct {
 	_returnSuccess
 	// data
-	Data *models.AdminNav
+	Data *mysql.AdminNav
+}
+
+type _returnNavPost struct {
+	_returnSuccess
+	// data
+	Data int
+}
+
+type _returnAuthGroupGetList struct {
+	_returnSuccess
+	// data
+	Data struct {
+		_returnPageLimit
+		Data []mysql.AuthGroup
+	}
+}
+
+type _returnAuthGroupGetOnly struct {
+	_returnSuccess
+	Data mysql.AuthGroup
+}
+
+type _returnAuthGroupPost struct {
+	_returnSuccess
+	Data int
 }
