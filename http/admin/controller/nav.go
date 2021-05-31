@@ -136,7 +136,7 @@ func (a *Nav) Get(c *gin.Context) {
 // @Produce json
 // @Param Auth-Token header string true "Auth-Token"
 // @Param object query navPostValidate false "post message"
-// @Success 200 {object} _returnSuccess
+// @Success 200 {object} _returnNavPost
 // @Failure 400 {object} _returnError
 // @Router /admin/nav/index [post]
 // Post is post nav message
@@ -164,11 +164,11 @@ func (a *Nav) Post(c *gin.Context) {
 	result := model.Add(validate.Name, validate.PID, validate.Url, validate.Status)
 	if result == 0 {
 		returnData["code"] = 1
-		jsonHandle(c, returnData)
-		return
+	} else {
+		returnData["code"] = 0
+		returnData["data"] = result
 	}
 
-	returnData["code"] = 0
 	jsonHandle(c, returnData)
 }
 
