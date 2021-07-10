@@ -16,6 +16,23 @@
 swag init
 ```
 
+## Assets pack
+```shell
+# install go-bindata-assetfs
+go get github.com/go-bindata/go-bindata/...
+go get github.com/elazarl/go-bindata-assetfs/...
+
+# build
+## swagger-ui
+go-bindata-assetfs -o=http/assets/swagger_ui.go -pkg=swagger_ui http/assets/swagger-ui/...
+
+# debug mode
+## swagger-ui
+go-bindata-assetfs -debug -o=http/assets/swagger_ui.go -pkg=swagger_ui http/assets/swagger-ui/...
+
+
+```
+
 
 ## Frame Structure
 ```

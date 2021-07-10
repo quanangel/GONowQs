@@ -4,7 +4,9 @@ go 1.16
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
+	github.com/elazarl/go-bindata-assetfs v1.0.1 // indirect
 	github.com/gin-gonic/gin v1.7.2
+	github.com/go-bindata/go-bindata v1.0.0 // indirect
 	github.com/go-playground/validator/v10 v10.7.0 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/golang/protobuf v1.5.2 // indirect
