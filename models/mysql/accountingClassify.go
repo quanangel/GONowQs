@@ -80,40 +80,6 @@ func (m *AccountingClassify) GetByID(id int64, userID int64) *AccountingClassify
 	return m
 }
 
-// SoftDelete is soft delete message by search
-func (m *AccountingClassify) SoftDelete(search map[string]interface{}) error {
-	db := GetDb()
-	tx := db.Begin()
-	var listTmp []AccountingClassify
-	if err := tx.Where(search).Find(&listTmp).Error; err != nil {
-		return err
-	}
-	if len(listTmp) == 0 {
-		return nil
-	}
-
-	m.Status = 0
-	m.UpdateTime = int(time.Now().Unix())
-	if err := tx.Where(search).Select("status", "update_time").Updates(m).Error; err != nil {
-		tx.Rollback()
-		return err
-	}
-
-	var classifyID []int64
-	for _, val := range listTmp {
-		classifyID = append(classifyID, val.ID)
-	}
-	blogStruct := NewBlog()
-	blogStruct.Status = 0
-	blogStruct.UpdateTime = int(time.Now().Unix())
-	if err := tx.Where("classify_id IN ?", classifyID).Select("status", "update_time").Updates(&blogStruct).Error; err != nil {
-		tx.Rollback()
-		return err
-	}
-
-	return tx.Commit().Error
-}
-
 // Edit is edit message function
 func (m *AccountingClassify) Edit(search map[string]interface{}, data map[string]interface{}) bool {
 	db := GetDb()

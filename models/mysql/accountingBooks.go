@@ -1,5 +1,10 @@
 package mysql
 
+import (
+	"fmt"
+	"time"
+)
+
 type AccountingBooks struct {
 	// ID
 	ID int64 `gorm:"column:id;type:bigint(20) auto_increment;primaryKey;comment:id"`
@@ -78,7 +83,7 @@ func (m *AccountingClassify) SoftDelete(search map[string]interface{}) bool {
 	db := GetDb()
 	m.Status = 0
 	m.UpdateTime = int(time.Now().Unix())
-	result := db.Where(search).Selete("status", "update_time").Updates(m)
+	result := db.Where(search).Select("status", "update_time").Updates(m)
 	return result.RowsAffected > 0
 }
 
