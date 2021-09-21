@@ -5,6 +5,7 @@ import (
 	admin "nowqs/frame/http/admin/routers"
 	swagger_ui "nowqs/frame/http/assets"
 	blog "nowqs/frame/http/blog/routers"
+	"nowqs/frame/http/middleware"
 
 	assetfs "github.com/elazarl/go-bindata-assetfs"
 
@@ -13,7 +14,7 @@ import (
 
 // NewRouter is router function
 func NewRouter(r *gin.Engine) *gin.Engine {
-
+	r.Use(middleware.Cors())
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
@@ -21,8 +22,8 @@ func NewRouter(r *gin.Engine) *gin.Engine {
 	})
 
 	// admin routers
-	r = admin.NewRouters(r)
-	r = blog.NewRouters(r)
+	admin.NewRouters(r)
+	blog.NewRouters(r)
 
 	swaggerUi := assetfs.AssetFS{Asset: swagger_ui.Asset, AssetDir: swagger_ui.AssetDir, AssetInfo: swagger_ui.AssetInfo, Prefix: "http/assets/swagger-ui"}
 

@@ -8,7 +8,7 @@ import (
 )
 
 // NewRouters is admin routers function
-func NewRouters(r *gin.Engine) *gin.Engine {
+func NewRouters(r *gin.Engine) {
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -29,6 +29,4 @@ func NewRouters(r *gin.Engine) *gin.Engine {
 		admin.POST("/nav/index", nav.Post)
 		admin.PUT("/nav/index", nav.Put)
 	}
-
-	return r
 }
