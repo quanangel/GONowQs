@@ -14,6 +14,8 @@ type Users struct {
 	UserName string `gorm:"column:user_name;type:varchar(50);index:user_name;not null;comment:user name"`
 	// nick name
 	NickName string `gorm:"column:nick_name;type:varchar(50);not null;comment:nick name"`
+	// portrait
+	Portrait string `gorm:"column:portrait;type:varchar(255);comment:portrait"`
 	// password
 	Password string `gorm:"column:password:type:varchar(1024);not null;comment:password"`
 	// status: 1normal、2disable
