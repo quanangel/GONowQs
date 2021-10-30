@@ -20,8 +20,8 @@ type AuthRule struct {
 	Condition string `gorm:"column:condition;type:varchar(200);comment:condition"`
 	// status: 1normal、2disable
 	Status int8 `gorm:"column:status;type:tinyint(1);default:1;comment:1normal、2disable"`
-	// add time
-	AddTime int `gorm:"column:add_time;type:int(10);not null;add time"`
+	// BaseTimeModel
+	BaseTimeModel
 }
 
 // NewAuthRule is return AuthRule struct function
@@ -37,6 +37,7 @@ func (m *AuthRule) Add(pid int, name string, url string, condition string, statu
 	m.Condition = condition
 	m.Status = status
 	m.AddTime = int(time.Now().Unix())
+	m.UpdateTime = m.AddTime
 	db := GetDb()
 	result := db.Create(m)
 	if result.RowsAffected > 0 {

@@ -26,11 +26,11 @@ type _returnLoginPut struct {
 type _returnLoginGet struct {
 	_returnSuccess
 	Data struct {
-		UserName     string `json:"username" example:"username"`        // user name
-		NickName     string `json:"nickname" example:"nickname"`        // nick name
-		LastIP       string `json:"last_ip" example:"127.0.0.1"`        // last ip
-		LastTime     string `json:"last_time" example:"1234567890"`     // last time
-		RegisterTime string `json:"register_time" example:"1234567890"` // register time
+		UserName string `json:"username" example:"username"`    // user name
+		NickName string `json:"nickname" example:"nickname"`    // nick name
+		LastIP   string `json:"last_ip" example:"127.0.0.1"`    // last ip
+		LastTime string `json:"last_time" example:"1234567890"` // last time
+		AddTime  string `json:"add_time" example:"1234567890"`  // register time
 	}
 }
 

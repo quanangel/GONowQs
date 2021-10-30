@@ -20,8 +20,8 @@ type Uploads struct {
 	UploadUserID int64 `gorm:"column:upload_user_id:bigint(20);index;default:0;comment:upload user id"`
 	// file status: 0delete、1normal、2show for upload user
 	Status int8 `gorm:"column:status:tinyint(1);default:1;comment:file status:0delete、1normal、2only show for upload user"`
-	// add time
-	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
+	// BaseTimeModel
+	BaseTimeModel
 }
 
 // NewImages is return Images struct
@@ -39,6 +39,7 @@ func (m *Uploads) Add(classifyName string, fileName string, fileType string, fil
 	m.UploadUserID = uploadUserID
 	m.Status = status
 	m.AddTime = int(time.Now().Unix())
+	m.UpdateTime = m.AddTime
 	db := GetDb()
 	result := db.Create(m)
 	if result.RowsAffected > 0 {

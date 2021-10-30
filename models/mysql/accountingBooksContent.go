@@ -13,10 +13,8 @@ type AccountingBooksContent struct {
 	Images string `gorm:"column:images;type:text;comment:images commas to separate characters"`
 	// Status 0deleted 1normal 2disable
 	Status int8 `gorm:"column:status;type:tinyint(1);default(1);comment:status:0deleted/1normal/2disable"`
-	// AddTime
-	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
-	// UpdateTime
-	UpdateTime int `gorm:"column:udpate_time;type:int(10);not null;comment:update time"`
+	// BaseTimeModel
+	BaseTimeModel
 }
 
 // TODO:

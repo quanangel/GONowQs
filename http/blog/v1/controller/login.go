@@ -61,11 +61,11 @@ func (a *Login) Get(c *gin.Context) {
 
 	returnData["code"] = 0
 	returnData["data"] = gin.H{
-		"username":      userInfo.UserName,
-		"nickname":      userInfo.NickName,
-		"last_ip":       userInfo.LastIP,
-		"last_time":     userInfo.LastTime,
-		"register_time": userInfo.RegisterTime,
+		"username":  userInfo.UserName,
+		"nickname":  userInfo.NickName,
+		"last_ip":   userInfo.LastIP,
+		"last_time": userInfo.LastTime,
+		"add_time":  userInfo.AddTime,
 	}
 
 	jsonHandle(c, returnData)

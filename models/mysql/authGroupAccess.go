@@ -9,8 +9,8 @@ type AuthGroupAccess struct {
 	UserID int64 `gorm:"column:user_id;type:bigint(20);index:user_id;not null;comment:user id"`
 	// group id
 	GroupID int `gorm:"column:group_id;type:int(10);index:group_id;not null;comment:group id"`
-	// add time
-	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
+	// BaseTimeModel
+	BaseTimeModel
 }
 
 // NewAuthGroupAccess is return AuthGroupAccess struct function
@@ -23,6 +23,7 @@ func (m *AuthGroupAccess) Add(userID int64, groupID int) bool {
 	m.UserID = userID
 	m.GroupID = groupID
 	m.AddTime = int(time.Now().Unix())
+	m.UpdateTime = m.AddTime
 	db := GetDb()
 	result := db.Create(m)
 	return result.RowsAffected > 0

@@ -29,6 +29,13 @@ func init() {
 
 }
 
+type BaseTimeModel struct {
+	// AddTime`
+	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
+	// UpdateTime
+	UpdateTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
+}
+
 // InitDb is initialization DB example function
 func InitDb() {
 	if config.AppConfig.Db.Status {

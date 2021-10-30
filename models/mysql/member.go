@@ -22,8 +22,8 @@ type Member struct {
 	LastIP string `gorm:"column:last_ip;type:varchar(20);null;comment:last login ip"`
 	// last login time
 	LastTime int `gorm:"column:last_time;type:int(10);null;comment:last login time"`
-	// register time
-	RegisterTime int `gorm:"column:register_time;type:int(10);not null;comment:register time"`
+	// BaseTimeModel
+	BaseTimeModel
 }
 
 // NewMember is return Member struct
@@ -36,7 +36,8 @@ func (m *Member) Add(username string, nickname string, password string) int64 {
 	m.UserName = username
 	m.NickName = nickname
 	m.Password = m.Sha512(password)
-	m.RegisterTime = int(time.Now().Unix())
+	m.AddTime = int(time.Now().Unix())
+	m.UpdateTime = m.AddTime
 	db := GetDb()
 	result := db.Create(m)
 	if result.RowsAffected > 0 {

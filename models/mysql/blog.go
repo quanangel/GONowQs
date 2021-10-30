@@ -25,12 +25,10 @@ type Blog struct {
 	Type int8 `gorm:"column:type;type:tinyint(1);default(1);comment:1markdown/2quill"`
 	// IsPush 1yes 2no
 	IsPush int8 `gorm:"column:is_push;type:tinyint(1);default(2);comment:is push:1yes/2no"`
-	// AddTime
-	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
-	// UpdateTime
-	UpdateTime int `gorm:"column:update_time:type:int(10);not null;comment:update time"`
 	// ReadNum
 	ReadNum int64 `gorm:"column:read_num;type:bigint(20);default(0);comment:read num"`
+	// BaseTimeModel
+	BaseTimeModel
 }
 
 // NewBlog is return Blog struct
@@ -90,6 +88,7 @@ func (m *Blog) GetByID(ID int64, userID int64) *Blog {
 // Edit is edit message by search
 func (m *Blog) Edit(search map[string]interface{}, data map[string]interface{}) bool {
 	db := GetDb()
+	data["update_time"] = int(time.Now().Unix())
 	db.Model(m).Where(search).Updates(data)
 	return db.RowsAffected > 0
 }

@@ -18,12 +18,10 @@ type AccountingBooks struct {
 	Status int8 `gorm:"column:status;type:tinyint(1);default(1);comment:status:0deleted/1normal/2disable"`
 	// Type 0deleted 1normal 2disable
 	Type int8 `gorm:"column:type;type:tinyint(1);default(2);comment:status:1public/2private"`
-	// AddTime
-	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
-	// UpdateTime
-	UpdateTime int `gorm:"column:udpate_time;type:int(10);not null;comment:update time"`
 	// OrderID
 	OrderID int64 `gorm:"column:order_id;type:bigint(20);default(0);comment:order id"`
+	// BaseTimeModel
+	BaseTimeModel
 }
 
 // NewAccountingBooks is return AccountingBooks struct

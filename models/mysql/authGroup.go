@@ -18,10 +18,8 @@ type AuthGroup struct {
 	Status int8 `gorm:"column:status;type:tinyint(1);default:1;comment:status:1normal、2disable"`
 	// rule string
 	Rules string `gorm:"column:rules;type:text;comment:rule list"`
-	// add time
-	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
-	// update time
-	UpdateTime int `gorm:"column:update_time;type:int(10);not null;comment:update time"`
+	// BaseTimeModel
+	BaseTimeModel
 }
 
 // NewAuthGroup is return AuthGroup struct function

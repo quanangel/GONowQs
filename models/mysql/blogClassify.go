@@ -18,12 +18,9 @@ type BlogClassify struct {
 	Type int8 `gorm:"column:type;type:tinyint(1);default(1);comment:type:1markdown/2quill"`
 	// Status 0deleted 1public 2 private 3draft
 	Status int8 `gorm:"column:status;type:tinyint(1);default(1);comment:status:0deleted/1public/2privarte/3draft"`
-	// AddTime
-	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
-	// UpdateTime
-	UpdateTime int `gorm:"column:udpate_time;type:int(10);not null;comment:update time"`
 	// OrderID
 	OrderID int64 `gorm:"column:order_id;type:bigint(20);default(0);comment:order id"`
+	BaseTimeModel
 }
 
 // NewBlogClassify is return BlogClassify struct function
@@ -117,6 +114,7 @@ func (m *BlogClassify) SoftDelete(search map[string]interface{}) error {
 // Edit is edit message function
 func (m *BlogClassify) Edit(search map[string]interface{}, data map[string]interface{}) bool {
 	db := GetDb()
+	data["update_time"] = int(time.Now().Unix())
 	result := db.Model(m).Where(search).Updates(data)
 	return result.RowsAffected > 0
 }
