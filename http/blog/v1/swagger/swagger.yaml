@@ -99,6 +99,18 @@ definitions:
         example: success
         type: string
     type: object
+  controller._returnCaptcha:
+    properties:
+      expire_time:
+        example: 1234567890
+        type: integer
+      image:
+        example: base64:****
+        type: string
+      key:
+        example: k1111
+        type: string
+    type: object
   controller._returnError:
     properties:
       code:
@@ -118,6 +130,10 @@ definitions:
         type: integer
       data:
         properties:
+          add_time:
+            description: register time
+            example: "1234567890"
+            type: string
           last_ip:
             description: last ip
             example: 127.0.0.1
@@ -129,10 +145,6 @@ definitions:
           nickname:
             description: nick name
             example: nickname
-            type: string
-          register_time:
-            description: register time
-            example: "1234567890"
             type: string
           username:
             description: user name
@@ -173,7 +185,7 @@ definitions:
   models.Blog:
     properties:
       addTime:
-        description: AddTime
+        description: AddTime`
         type: integer
       classifyID:
         description: ClassifyID
@@ -212,7 +224,7 @@ definitions:
   models.BlogClassify:
     properties:
       addTime:
-        description: AddTime
+        description: AddTime`
         type: integer
       id:
         description: ID
@@ -316,18 +328,18 @@ paths:
       produces:
       - application/json
       responses:
-        "1":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller._returnBlogGetList'
-        "2":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller._returnBlogGetOnly'
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/controller._returnError'
+        "2001":
+          description: ""
+          schema:
+            $ref: '#/definitions/controller._returnBlogGetList'
+        "2002":
+          description: ""
+          schema:
+            $ref: '#/definitions/controller._returnBlogGetOnly'
       summary: Blog
       tags:
       - Blog
@@ -506,18 +518,18 @@ paths:
       produces:
       - application/json
       responses:
-        "1":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller._returnBlogClassifyGetList'
-        "2":
-          description: ""
-          schema:
-            $ref: '#/definitions/controller._returnBlogClassifyGetOnly'
         "400":
           description: Bad Request
           schema:
             $ref: '#/definitions/controller._returnError'
+        "2001":
+          description: ""
+          schema:
+            $ref: '#/definitions/controller._returnBlogClassifyGetList'
+        "2002":
+          description: ""
+          schema:
+            $ref: '#/definitions/controller._returnBlogClassifyGetOnly'
       summary: BlogClassify
       tags:
       - BlogClassify
@@ -626,6 +638,23 @@ paths:
       summary: BlogClassify
       tags:
       - BlogClassify
+  /blog/v1/captcha:
+    get:
+      description: Catpcha
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller._returnCaptcha'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controller._returnError'
+      summary: Catpcha
+      tags:
+      - Catpcha
   /blog/v1/login:
     get:
       description: Login

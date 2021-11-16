@@ -72,13 +72,13 @@
                     }
                 ],
                 "responses": {
-                    "1": {
+                    "2001": {
                         "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller._returnBlogGetList"
                         }
                     },
-                    "2": {
+                    "2002": {
                         "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller._returnBlogGetOnly"
@@ -348,13 +348,13 @@
                     }
                 ],
                 "responses": {
-                    "1": {
+                    "2001": {
                         "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller._returnBlogClassifyGetList"
                         }
                     },
-                    "2": {
+                    "2002": {
                         "description": "",
                         "schema": {
                             "$ref": "#/definitions/controller._returnBlogClassifyGetOnly"
@@ -547,6 +547,32 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/controller._returnSuccess"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnError"
+                        }
+                    }
+                }
+            }
+        },
+        "/blog/v1/captcha": {
+            "get": {
+                "description": "Catpcha",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Catpcha"
+                ],
+                "summary": "Catpcha",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/controller._returnCaptcha"
                         }
                     },
                     "400": {
@@ -785,6 +811,23 @@
                 }
             }
         },
+        "controller._returnCaptcha": {
+            "type": "object",
+            "properties": {
+                "expire_time": {
+                    "type": "integer",
+                    "example": 1234567890
+                },
+                "image": {
+                    "type": "string",
+                    "example": "base64:****"
+                },
+                "key": {
+                    "type": "string",
+                    "example": "k1111"
+                }
+            }
+        },
         "controller._returnError": {
             "type": "object",
             "properties": {
@@ -811,6 +854,11 @@
                 "data": {
                     "type": "object",
                     "properties": {
+                        "add_time": {
+                            "description": "register time",
+                            "type": "string",
+                            "example": "1234567890"
+                        },
                         "last_ip": {
                             "description": "last ip",
                             "type": "string",
@@ -825,11 +873,6 @@
                             "description": "nick name",
                             "type": "string",
                             "example": "nickname"
-                        },
-                        "register_time": {
-                            "description": "register time",
-                            "type": "string",
-                            "example": "1234567890"
                         },
                         "username": {
                             "description": "user name",
@@ -884,7 +927,7 @@
             "type": "object",
             "properties": {
                 "addTime": {
-                    "description": "AddTime",
+                    "description": "AddTime`",
                     "type": "integer"
                 },
                 "classifyID": {
@@ -937,7 +980,7 @@
             "type": "object",
             "properties": {
                 "addTime": {
-                    "description": "AddTime",
+                    "description": "AddTime`",
                     "type": "integer"
                 },
                 "id": {
