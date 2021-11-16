@@ -61,8 +61,8 @@ type blogDeleteValidate struct {
 // @Produce json
 // @Param Auth-Token header string false "Auth-Token"
 // @Param object query blogGetValidate false "get message"
-// @Success 200-1 {object} _returnBlogGetList
-// @Success 200-2 {object} _returnBlogGetOnly
+// @Success 2001 {object} _returnBlogGetList
+// @Success 2002 {object} _returnBlogGetOnly
 // @Failure 400 {object} _returnError
 // @Router /blog/v1/blog [get]
 // Get is get blog message

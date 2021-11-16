@@ -18,6 +18,12 @@ type _returnPageLimit struct {
 	Limit int `json:"limit" example:"20"`  // limit
 }
 
+type _returnCaptcha struct {
+	Key        string `json:"key" example:"k1111"`
+	Image      string `json:"image" example:"base64:****"`
+	ExpireTime int    `json:"expire_time" example:"1234567890"`
+}
+
 type _returnLoginPut struct {
 	_returnSuccess
 	Data string `json:"data" example:"token"` // token
