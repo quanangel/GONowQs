@@ -33,7 +33,7 @@ type BaseTimeModel struct {
 	// AddTime`
 	AddTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
 	// UpdateTime
-	UpdateTime int `gorm:"column:add_time;type:int(10);not null;comment:add time"`
+	UpdateTime int `gorm:"column:update_time;type:int(10);not null;comment:update time"`
 }
 
 // InitDb is initialization DB example function
