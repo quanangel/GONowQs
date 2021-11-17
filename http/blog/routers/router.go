@@ -13,12 +13,15 @@ func NewRouters(r *gin.Engine) {
 	v1Login := controller.NewLogin()
 	v1BlogClassify := controller.NewBlogClassify()
 	v1Blog := controller.NewBlog()
+	v1Captcha := controller.NewCaptcha()
 
 	blog := r.Group("/blog")
 	blog.Use(middleware.Logger("blog"))
 	{
 		// blog.Use(middleware.Logger("blog"))
 		// blog.Use(middleware.Cors())
+		blog.GET("/v1/captcha", v1Captcha.Get)
+
 		blog.GET("/v1/login", v1Login.Get)
 		blog.PUT("/v1/login", v1Login.Put)
 
