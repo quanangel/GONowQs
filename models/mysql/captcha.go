@@ -1,6 +1,8 @@
 package mysql
 
 import (
+	"errors"
+	"nowqs/frame/language"
 	"nowqs/frame/utils"
 	"time"
 
@@ -27,18 +29,18 @@ func NewCaptcha() Captcha {
 }
 
 // Add is add message
-func (m *Captcha) Add() gin.H {
+func (m *Captcha) Add() (gin.H, error) {
 	res := gin.H{}
 	config := utils.NewDefaultOptions()
 	data, err := config.New()
 	if err != nil {
-		return res
+		return res, err
 	}
 	m.CaptchaKey = data.CodeKey
 	m.CaptchaValue = data.Code
 	m.AddTime = int(time.Now().Unix())
 	m.UpdateTime = m.AddTime
-	m.ExpireTime = m.AddTime + data.ExpireTime
+	m.ExpireTime = data.ExpireTime
 	db := GetDb()
 	result := db.Create(m)
 	if result.RowsAffected > 0 {
@@ -47,8 +49,10 @@ func (m *Captcha) Add() gin.H {
 			"expire_time": m.ExpireTime,
 			"image":       data.Image,
 		}
+	} else {
+		err = errors.New(language.GetMsg("error"))
 	}
-	return res
+	return res, err
 }
 
 func (m *Captcha) Check(key string, value string) bool {

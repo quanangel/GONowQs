@@ -27,20 +27,27 @@ func (a *Captcha) Get(c *gin.Context) {
 		"code": -1,
 	}
 	if config.AppConfig.Redis.Status {
-		captcha := mysql.NewCaptcha()
-		result := captcha.Add()
-		returnData["code"] = 0
-		returnData["data"] = result
-	} else {
 		captcha, err := redis.GetCaptcha()
-		if err == nil {
+		if err != nil {
 			returnData["code"] = 1
+			returnData["msg"] = err.Error()
+		} else {
+			returnData["code"] = 0
+			returnData["data"] = gin.H{
+				"key":         captcha.CodeKey,
+				"image":       captcha.Image,
+				"expire_time": captcha.ExpireTime,
+			}
 		}
-		returnData["code"] = 0
-		returnData["data"] = gin.H{
-			"key":         captcha.CodeKey,
-			"image":       captcha.Image,
-			"expire_time": captcha.ExpireTime,
+	} else {
+		captcha := mysql.NewCaptcha()
+		result, err := captcha.Add()
+		if err != nil {
+			returnData["code"] = 1
+			returnData["msg"] = err.Error()
+		} else {
+			returnData["code"] = 0
+			returnData["data"] = result
 		}
 	}
 
