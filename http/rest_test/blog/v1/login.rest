@@ -1,0 +1,9 @@
+@hostname = {{$dotenv URL}}
+@route = {{$dotenv MODULE}}/{{$dotenv VERSION}}/login
+@token = {{$dotenv AUTHTOKEN}}
+
+
+# get member message by token
+GET {{hostname}}/{{route}} HTTP/1.1
+Content-Type: application/json
+Auth-Token: {{token}}
