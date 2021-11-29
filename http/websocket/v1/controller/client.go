@@ -129,11 +129,7 @@ func (c *Client) HandleMessage(message []byte) []byte {
 	}
 	switch base.Action {
 	case "login":
-		request := &_Login{}
-		err = json.Unmarshal(message, request)
-		// reslut := Login(request.UserType, request.Token)
-		response.Code = 0
-		response.Msg = language.GetMsg("success")
+		response = Login(message)
 	default:
 		response.Msg = language.GetErrorMsg(7)
 	}
@@ -147,6 +143,23 @@ func (c *Client) JSON(msg *Message) []byte {
 }
 
 // TODO: Login
-func Login(userType string, Token string) {
+func Login(message []byte) (response *Message) {
+	response = &Message{
+		Action: "login",
+		Code:   1,
+	}
+	request := &_Login{}
+	err := json.Unmarshal(message, request)
+	if err != nil {
+		response.Msg = err.Error()
+		return
+	}
+	err = request.validate(request)
+	if err != nil {
+		response.Msg = err.Error()
+	}
+	// reslut := Login(request.UserType, request.Token)
+	// response.Code = 0
+	// response.Msg = language.GetMsg("success")
 	return
 }

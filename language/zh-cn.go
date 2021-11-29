@@ -1,6 +1,7 @@
 package language
 
 var zhCn = map[string]string{
+	"unknown":             "未知",
 	"unexecuted":          "未操作",
 	"success":             "成功",
 	"error":               "失败",
@@ -33,4 +34,8 @@ var zhCn = map[string]string{
 	"search name":             "搜索名称",
 	"search count":            "共搜索",
 	"search take time":        "搜索耗时",
+
+	// workerman
+	"illegal action": "非法操作",
+	"lack user type": "缺少用户类型",
 }
