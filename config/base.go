@@ -81,11 +81,11 @@ func getConfig() *Config {
 	_, errFile := os.Stat(configFile)
 	if errFile == nil {
 		configFile, errOpen := os.Open(configFile)
-		whiteLog(errOpen)
+		WriteLog(errOpen)
 		defer configFile.Close()
 		decode := json.NewDecoder(configFile)
 		errDecode := decode.Decode(&config)
-		whiteLog(errDecode)
+		WriteLog(errDecode)
 		if config.Db.DSN == "" {
 			config.Db.DSN = config.Db.User + ":" + config.Db.Password + "@tcp(" + config.Db.Host + ":" + strconv.Itoa(config.Db.Port) + ")/" + config.Db.Db + "?charset=" + config.Db.Charset + "&parseTime=true&loc=Local"
 		}
@@ -95,11 +95,11 @@ func getConfig() *Config {
 			config.Db.DSN = config.Db.User + ":" + config.Db.Password + "@tcp(" + config.Db.Host + ":" + strconv.Itoa(config.Db.Port) + ")/" + config.Db.Db + "?charset=" + config.Db.Charset + "&parseTime=true&loc=Local"
 		}
 		encode, errConfig := json.Marshal(config)
-		whiteLog(errConfig)
+		WriteLog(errConfig)
 		createConfigFile, _ := os.OpenFile(configFile, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0777)
 		defer createConfigFile.Close()
 		_, errWhite := createConfigFile.Write(encode)
-		whiteLog(errWhite)
+		WriteLog(errWhite)
 	}
 	return config
 }
@@ -141,11 +141,11 @@ func newConfigMsg() *Config {
 		}}
 }
 
-func whiteLog(err error) {
+func WriteLog(err error) {
 	now := time.Now()
 	logDir := logPath + PathSeparator + now.Format("200601")
 	os.Mkdir(logDir, 0666)
-	logFileName := logDir + PathSeparator + strconv.Itoa(now.Day()) + "_config.log"
+	logFileName := logDir + PathSeparator + strconv.Itoa(now.Day()) + "_error.log"
 	logFile, _ := os.OpenFile(logFileName, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	defer logFile.Close()
 	logger := log.New(logFile, "", log.LstdFlags|log.Lshortfile)
