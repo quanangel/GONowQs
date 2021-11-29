@@ -15,6 +15,7 @@ var error = map[int]string{
 	4:  "token create error",
 	5:  "token save error",
 	6:  "empty",
+	7:  "unknown",
 
 	// about param error
 	10000: "param lack",
