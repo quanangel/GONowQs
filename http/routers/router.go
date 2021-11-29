@@ -6,6 +6,7 @@ import (
 	swagger_ui "nowqs/frame/http/assets"
 	blog "nowqs/frame/http/blog/routers"
 	"nowqs/frame/http/middleware"
+	ws "nowqs/frame/http/websocket/routers"
 
 	assetfs "github.com/elazarl/go-bindata-assetfs"
 
@@ -24,6 +25,7 @@ func NewRouter(r *gin.Engine) *gin.Engine {
 	// admin routers
 	admin.NewRouters(r)
 	blog.NewRouters(r)
+	ws.NewRouters(r)
 
 	swaggerUi := assetfs.AssetFS{Asset: swagger_ui.Asset, AssetDir: swagger_ui.AssetDir, AssetInfo: swagger_ui.AssetInfo, Prefix: "http/assets/swagger-ui"}
 
