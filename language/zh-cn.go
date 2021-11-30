@@ -36,6 +36,9 @@ var zhCn = map[string]string{
 	"search take time":        "搜索耗时",
 
 	// workerman
-	"illegal action": "非法操作",
-	"lack user type": "缺少用户类型",
+	"illegal action":          "非法操作",
+	"illegal type":            "非法类型",
+	"lack user type":          "缺少用户类型",
+	"lack user id":            "缺少用户ID",
+	"content cannot be empty": "内容不能为空",
 }
