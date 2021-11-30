@@ -10,6 +10,14 @@ type _Login struct {
 	Token    string `json:"token"`
 }
 
+type _SendMessage struct {
+	_base
+	UserType string `json:"user_type"`
+	UserID   string `json:"user_id"`
+	SendType string `json:"send_type"`
+	Content  string `json:"content"`
+}
+
 // Message is response message struct
 type Message struct {
 	Action string                 `json:"action"`

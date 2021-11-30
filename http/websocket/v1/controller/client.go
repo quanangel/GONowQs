@@ -130,6 +130,8 @@ func (c *Client) HandleMessage(message []byte) []byte {
 	switch base.Action {
 	case "login":
 		response = Login(message)
+	case "send_message":
+		response = SendMessage(message)
 	default:
 		response.Msg = language.GetErrorMsg(7)
 	}
@@ -161,5 +163,25 @@ func Login(message []byte) (response *Message) {
 	// reslut := Login(request.UserType, request.Token)
 	// response.Code = 0
 	// response.Msg = language.GetMsg("success")
+	return
+}
+
+func SendMessage(message []byte) (response *Message) {
+	response = &Message{
+		Action: "send_message",
+		Code:   1,
+	}
+	request := &_SendMessage{}
+	err := json.Unmarshal(message, request)
+	if err != nil {
+		response.Msg = err.Error()
+		return
+	}
+	err = request.validate(request)
+	if err != nil {
+		response.Msg = err.Error()
+		return
+	}
+	// TODO:
 	return
 }
