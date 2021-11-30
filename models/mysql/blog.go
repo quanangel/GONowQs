@@ -23,8 +23,6 @@ type Blog struct {
 	Status int8 `gorm:"column:status;type:tinyint(1);default(1);comment:status:0deleted/1public/2private/3draft"`
 	// Type 1markdown 2quill
 	Type int8 `gorm:"column:type;type:tinyint(1);default(1);comment:1markdown/2quill"`
-	// IsPush 1yes 2no
-	IsPush int8 `gorm:"column:is_push;type:tinyint(1);default(2);comment:is push:1yes/2no"`
 	// ReadNum
 	ReadNum int64 `gorm:"column:read_num;type:bigint(20);default(0);comment:read num"`
 	// BaseTimeModel
@@ -103,7 +101,7 @@ func (m *Blog) SoftDelete(search map[string]interface{}) bool {
 }
 
 // Add is add message function
-func (m *Blog) Add(classifyID int64, userID int64, cover string, title string, content string, status int8, typeint int8, isPush int8) int64 {
+func (m *Blog) Add(classifyID int64, userID int64, cover string, title string, content string, status int8, typeint int8, tag []string) int64 {
 	m.ClassifyID = classifyID
 	m.UserID = userID
 	m.Cover = cover
@@ -111,13 +109,13 @@ func (m *Blog) Add(classifyID int64, userID int64, cover string, title string, c
 	m.Content = content
 	m.Status = status
 	m.Type = typeint
-	m.IsPush = isPush
 	m.AddTime = int(time.Now().Unix())
 	m.UpdateTime = m.AddTime
 
 	db := GetDb()
 	result := db.Create(m)
 	if result.RowsAffected > 0 {
+		// TODO：
 		return m.ID
 	}
 	return 0
