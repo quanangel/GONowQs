@@ -3,6 +3,7 @@ package controller
 import (
 	"nowqs/frame/http/blog/models"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -38,6 +39,8 @@ type blogPostValidate struct {
 	Title string `form:"title" json:"title" xml:"title" binding:"required"`
 	// Content
 	Content string `form:"content" json:"content" xml:"content" binding:"-"`
+	// Tag
+	Tag string `form:"tag" json:"tag" binding:"-"`
 	// Status 1public/2private/3draft
 	Status int8 `form:"status" json:"status" xml:"status" binding:"required" default:"1"`
 	// Type 1markdown/2quill
@@ -169,8 +172,10 @@ func (a *Blog) Post(c *gin.Context) {
 		return
 	}
 
+	tagArray := strings.Split(",", validate.Tag)
+
 	modelBlog := models.NewBlog()
-	result := modelBlog.Add(validate.ClassifyID, userID, validate.Cover, validate.Title, validate.Content, validate.Status, validate.Type, 2)
+	result := modelBlog.Add(validate.ClassifyID, userID, validate.Cover, validate.Title, validate.Content, validate.Status, validate.Type, 2, tagArray)
 	if result == 0 {
 		returnData["code"] = 1
 		jsonHandle(c, returnData)

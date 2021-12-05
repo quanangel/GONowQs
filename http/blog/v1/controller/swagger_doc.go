@@ -1,3 +1,4 @@
+//lint:file-ignore U1000 this file is swagger document type
 package controller
 
 import "nowqs/frame/http/blog/models"
