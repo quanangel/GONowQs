@@ -117,12 +117,6 @@ func (m *Blog) Add(classifyID int64, userID int64, cover string, title string, c
 	m.UpdateTime = nowTime
 
 	db := GetDb()
-	// result := db.Create(m)
-	// start transaction
-	// if result.RowsAffected > 0 {
-
-	// 	return m.ID
-	// }
 	tx := db.Begin()
 
 	defer func() {
